@@ -279,6 +279,38 @@ body {
 .ab-btn.error { background: var(--red-bg); border: 1px solid #FCA5A5; color: var(--red); }
 .ab-btn.next { background: var(--primary); color: #fff; border: none; flex: 1; }
 
+/* 交卷结果页 */
+.result-page-top { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gray-100); }
+.result-score-card { margin: 16px; padding: 24px; border-radius: 16px; background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%); text-align: center; position: relative; overflow: hidden; }
+.result-score-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 100px; height: 100px; border-radius: 50%; background: rgba(255,255,255,0.08); }
+.result-score-card::after { content: ''; position: absolute; bottom: -20px; left: -20px; width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.05); }
+.result-score-num { font-size: 56px; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 4px; }
+.result-score-unit { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 12px; }
+.result-score-label { font-size: 15px; font-weight: 600; color: #fff; }
+.result-stats { display: flex; gap: 0; margin: 0 16px 16px; border-radius: 12px; overflow: hidden; border: 1px solid var(--gray-200); }
+.result-stat { flex: 1; padding: 14px 8px; text-align: center; background: var(--white); border-right: 1px solid var(--gray-200); }
+.result-stat:last-child { border-right: none; }
+.result-stat .stat-num { font-size: 22px; font-weight: 700; line-height: 1.2; }
+.result-stat .stat-label { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+.result-stat.correct .stat-num { color: var(--green); }
+.result-stat.wrong .stat-num { color: var(--red); }
+.result-stat.unanswered .stat-num { color: var(--gray-400); }
+.result-stat.rate .stat-num { color: var(--primary); }
+.result-section-title { padding: 0 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+.result-section-title h4 { font-size: 15px; font-weight: 600; color: var(--gray-900); }
+.result-section-title span { font-size: 12px; color: var(--gray-400); }
+.result-q-item { margin: 0 16px 6px; padding: 12px 14px; border-radius: 10px; background: var(--white); border: 1px solid var(--gray-200); display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.15s; }
+.result-q-item:active { background: var(--gray-50); }
+.result-q-item .q-status { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.result-q-item .q-status.correct { background: var(--green-bg); color: var(--green); }
+.result-q-item .q-status.wrong { background: var(--red-bg); color: var(--red); }
+.result-q-item .q-status.skip { background: var(--gray-100); color: var(--gray-400); }
+.result-q-item .q-info { flex: 1; min-width: 0; }
+.result-q-item .q-num { font-size: 12px; color: var(--gray-400); margin-bottom: 2px; }
+.result-q-item .q-brief { font-size: 13px; color: var(--gray-700); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.4; }
+.result-q-item .q-arrow { color: var(--gray-300); font-size: 16px; flex-shrink: 0; }
+.result-back-btn { margin: 20px 16px 30px; padding: 14px; border-radius: 12px; background: var(--primary); color: #fff; font-size: 15px; font-weight: 600; text-align: center; cursor: pointer; border: none; width: calc(100% - 32px); }
+
 .content::-webkit-scrollbar { width: 0; }
 </style>
 </head>
@@ -464,7 +496,7 @@ body {
 
     <!-- 答题解析 -->
     <div class="screen" id="screen-analysis">
-      <div class="analysis-top"><div class="back" onclick="switchTab('practice')">‹</div><h3>答题解析</h3><div class="progress" id="analysis-progress">1/36</div></div>
+      <div class="analysis-top"><div class="back" onclick="goBackFromAnalysis()">‹</div><h3>答题解析</h3><div class="progress" id="analysis-progress">1/36</div></div>
       <div style="flex:1;overflow-y:auto;padding-bottom:8px" id="analysis-content">
         <!-- 动态渲染 -->
       </div>
@@ -472,6 +504,18 @@ body {
         <div class="ab-btn prev" onclick="goPrevFromAnalysis()">上一题</div>
         <div class="ab-btn error" onclick="alert('已加入错题本！')">+错题本</div>
         <div class="ab-btn next" onclick="goNextFromAnalysis()">下一题 →</div>
+      </div>
+    </div>
+
+    <!-- 交卷结果页 -->
+    <div class="screen" id="screen-exam-result">
+      <div class="result-page-top">
+        <div class="back" onclick="switchTab('bank')" style="font-size:22px;cursor:pointer;color:var(--gray-900)">✕</div>
+        <h3 style="font-size:17px;font-weight:600;color:var(--gray-900)">考试结果</h3>
+        <div style="width:22px"></div>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding-bottom:20px" id="exam-result-content">
+        <!-- 动态渲染 -->
       </div>
     </div>
   </div>
@@ -889,13 +933,17 @@ let searchTerm = '';
 let currentQuestionIdx = 0;
 
 // ===== FUNCTIONS =====
-const tabMap = { home:'screen-home', bank:'screen-bank', practice:'screen-practice', errors:'screen-errors', knowledge:'screen-knowledge', profile:'screen-profile', exam:'screen-exam', analysis:'screen-analysis' };
+const tabMap = { home:'screen-home', bank:'screen-bank', practice:'screen-practice', errors:'screen-errors', knowledge:'screen-knowledge', profile:'screen-profile', exam:'screen-exam', analysis:'screen-analysis', 'exam-result':'screen-exam-result' };
 const tabBarTabs = ['home','bank','knowledge','profile'];
 
 function switchTab(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const target = document.getElementById(tabMap[name]);
   if (target) target.classList.add('active');
+  // 隐藏/显示底部tab bar
+  const tabBar = document.querySelector('.tab-bar');
+  const hideBarFor = ['exam', 'analysis', 'exam-result', 'practice', 'errors'];
+  if (tabBar) tabBar.style.display = hideBarFor.includes(name) ? 'none' : 'flex';
   document.querySelectorAll('.tab-item').forEach((t, i) => {
     t.classList.toggle('active', tabBarTabs[i] === name);
     t.querySelectorAll('svg path, svg circle').forEach(el => {
@@ -988,6 +1036,7 @@ function startChapterPractice(chapterIdx) {
 function startExamPractice(title, count) {
   currentQuestionIdx = 0;
   selectedAnswer = -1;
+  examReviewMode = false;
   currentExamTitle = title || subjects[currentSubject].name + '模拟测试';
   currentExamCount = count || 100;
   totalSeconds = 120 * 60;
@@ -1139,6 +1188,10 @@ function prevQuestion() {
 }
 
 function goNextFromAnalysis() {
+  if (examReviewMode) {
+    goNextFromExamAnalysis();
+    return;
+  }
   const questions = getCurrentQuestions();
   currentQuestionIdx = (currentQuestionIdx + 1) % questions.length;
   selectedAnswer = -1;
@@ -1148,6 +1201,10 @@ function goNextFromAnalysis() {
 }
 
 function goPrevFromAnalysis() {
+  if (examReviewMode) {
+    goPrevFromExamAnalysis();
+    return;
+  }
   const questions = getCurrentQuestions();
   currentQuestionIdx = (currentQuestionIdx - 1 + questions.length) % questions.length;
   selectedAnswer = -1;
@@ -1317,12 +1374,165 @@ function submitExam() {
   }
   // 计算分数
   let correct = 0;
+  let wrong = 0;
+  let unanswered = 0;
   currentExamQuestions.forEach((q, i) => {
-    if (examAnswers[i] === q.ans) correct++;
+    if (examAnswers[i] < 0) unanswered++;
+    else if (examAnswers[i] === q.ans) correct++;
+    else wrong++;
   });
   const score = Math.round((correct / total) * 100);
-  alert(`📝 考试结束！\n\n📊 成绩：${score} 分\n✅ 正确：${correct}/${total}\n❌ 错误：${total - correct}\n\n${score >= 60 ? '🎉 恭喜通过！' : '💪 继续加油！'}`);
-  switchTab('bank');
+  // 渲染结果页
+  renderExamResult(score, correct, wrong, unanswered, total);
+  switchTab('exam-result');
+}
+
+// 是否在考试解析模式
+let examReviewMode = false;
+
+function renderExamResult(score, correct, wrong, unanswered, total) {
+  const passLabel = score >= 60 ? '🎉 恭喜通过！' : '💪 继续加油！';
+  const rate = Math.round((correct / total) * 100);
+  const letters = ['A','B','C','D'];
+
+  const contentEl = document.getElementById('exam-result-content');
+  if (!contentEl) return;
+
+  // 题目列表 - 先错题再未答再正确
+  const items = currentExamQuestions.map((q, i) => {
+    let status, statusIcon;
+    if (examAnswers[i] < 0) { status = 'skip'; statusIcon = '—'; }
+    else if (examAnswers[i] === q.ans) { status = 'correct'; statusIcon = '✓'; }
+    else { status = 'wrong'; statusIcon = '✗'; }
+    return { idx: i, q, status, statusIcon };
+  });
+  // 排序：错题 > 未答 > 正确
+  const order = { wrong: 0, skip: 1, correct: 2 };
+  const sorted = [...items].sort((a, b) => order[a.status] - order[b.status]);
+
+  let listHtml = sorted.map(item => {
+    const q = item.q;
+    const userAns = examAnswers[item.idx];
+    let brief = q.q;
+    if (brief.length > 40) brief = brief.substring(0, 40) + '…';
+    let detail = '';
+    if (item.status === 'wrong') {
+      detail = `<span style="color:var(--red);font-size:11px">你选 ${letters[userAns]} · 正确 ${letters[q.ans]}</span>`;
+    } else if (item.status === 'skip') {
+      detail = `<span style="color:var(--gray-400);font-size:11px">未作答 · 正确 ${letters[q.ans]}</span>`;
+    }
+    return `<div class="result-q-item" onclick="reviewExamQuestion(${item.idx})">
+      <div class="q-status ${item.status}">${item.statusIcon}</div>
+      <div class="q-info">
+        <div class="q-num">第 ${item.idx + 1} 题 · ${q.type}</div>
+        <div class="q-brief">${brief}</div>
+        ${detail ? `<div style="margin-top:2px">${detail}</div>` : ''}
+      </div>
+      <div class="q-arrow">›</div>
+    </div>`;
+  }).join('');
+
+  contentEl.innerHTML = `
+    <div class="result-score-card">
+      <div class="result-score-num">${score}</div>
+      <div class="result-score-unit">分</div>
+      <div class="result-score-label">${passLabel}</div>
+    </div>
+    <div class="result-stats">
+      <div class="result-stat correct"><div class="stat-num">${correct}</div><div class="stat-label">正确</div></div>
+      <div class="result-stat wrong"><div class="stat-num">${wrong}</div><div class="stat-label">错误</div></div>
+      <div class="result-stat unanswered"><div class="stat-num">${unanswered}</div><div class="stat-label">未答</div></div>
+      <div class="result-stat rate"><div class="stat-num">${rate}%</div><div class="stat-label">正确率</div></div>
+    </div>
+    <div class="result-section-title"><h4>答题详情</h4><span>错题优先排列</span></div>
+    ${listHtml}
+    <button class="result-back-btn" onclick="switchTab('bank')">返回题库</button>
+  `;
+}
+
+function reviewExamQuestion(idx) {
+  examReviewMode = true;
+  currentQuestionIdx = idx;
+  selectedAnswer = examAnswers[idx];
+  renderExamAnalysis();
+  switchTab('analysis');
+}
+
+function renderExamAnalysis() {
+  const q = currentExamQuestions[currentQuestionIdx];
+  if (!q) return;
+  const letters = ['A','B','C','D'];
+  const userAns = examAnswers[currentQuestionIdx];
+  const isCorrect = userAns >= 0 && userAns === q.ans;
+  const isSkipped = userAns < 0;
+  const total = currentExamQuestions.length;
+  const progressEl = document.getElementById('analysis-progress');
+  if (progressEl) progressEl.textContent = `${currentQuestionIdx + 1}/${total}`;
+  const contentEl = document.getElementById('analysis-content');
+  if (!contentEl) return;
+
+  let resultHtml = '';
+  if (isSkipped) {
+    resultHtml = `<div class="result-banner" style="background:var(--gray-50);border:1px solid var(--gray-200)">
+      <div class="result-icon"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" stroke="#94A3B8" stroke-width="1.5"/><path d="M11 7v4M11 13.5v.5" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round"/></svg><span class="result-label" style="color:var(--gray-400)">未作答</span></div>
+      <div class="result-sub" style="color:var(--gray-500)">正确答案是 ${letters[q.ans]}. ${q.opts[q.ans]}</div>
+    </div>`;
+  } else if (isCorrect) {
+    resultHtml = `<div class="result-banner" style="background:var(--green-bg)">
+      <div class="result-icon"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" stroke="#059669" stroke-width="1.5"/><path d="M7 11l3 3 5-6" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="result-label" style="color:var(--green)">回答正确</span></div>
+      <div class="result-sub" style="color:#065F46">你选择了 ${letters[userAns]}. ${q.opts[userAns]}，回答正确！</div>
+    </div>`;
+  } else {
+    resultHtml = `<div class="result-banner">
+      <div class="result-icon"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" stroke="#DC2626" stroke-width="1.5"/><path d="M8 8l6 6M14 8l-6 6" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/></svg><span class="result-label">回答错误</span></div>
+      <div class="result-sub">你选择了 ${letters[userAns]}. ${q.opts[userAns]}，正确答案是 ${letters[q.ans]}. ${q.opts[q.ans]}</div>
+    </div>`;
+  }
+
+  const reviewOpts = q.opts.map((o, i) => {
+    if (i === q.ans) return `<div class="review-opt correct">${letters[i]}. ${o} <span class="opt-tag">正确答案</span></div>`;
+    if (i === userAns && !isCorrect) return `<div class="review-opt wrong">${letters[i]}. ${o} <span class="opt-tag">你的选择</span></div>`;
+    return `<div class="review-opt neutral">${letters[i]}. ${o}</div>`;
+  }).join('');
+
+  const subjectName = currentExamTitle || subjects[currentSubject].name;
+
+  contentEl.innerHTML = `${resultHtml}
+    <div class="analysis-card">
+      <div class="ac-header"><div class="q-tag">${q.type}</div><div class="ch-tag">${subjectName}</div></div>
+      <div class="q-text">${q.q}</div>
+      <div class="review-options">${reviewOpts}</div>
+    </div>
+    <div class="explanation-section">
+      <div class="exp-header"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#7C3AED" stroke-width="1.5"/><path d="M9 5v4M9 11.5v.5" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/></svg><div class="exp-title">解析</div></div>
+      <div class="exp-text">正确答案为${letters[q.ans]}. ${q.opts[q.ans]}。${currentSubject===0?'本题考查金融市场基础知识相关考点。':'本题考查证券法律法规相关考点。'}${isSkipped?'该题未作答，建议重点复习。':isCorrect?'掌握扎实，继续保持！':'建议回顾该知识点，加强薄弱环节。'}</div>
+      <div class="tag-row"><span class="kc-tag freq">高频考点</span><span class="kc-tag" style="background:var(--gray-100);color:var(--gray-500)">${subjectName}</span></div>
+    </div>`;
+}
+
+function goNextFromExamAnalysis() {
+  if (currentQuestionIdx < currentExamQuestions.length - 1) {
+    currentQuestionIdx++;
+    selectedAnswer = examAnswers[currentQuestionIdx];
+    renderExamAnalysis();
+  }
+}
+
+function goPrevFromExamAnalysis() {
+  if (currentQuestionIdx > 0) {
+    currentQuestionIdx--;
+    selectedAnswer = examAnswers[currentQuestionIdx];
+    renderExamAnalysis();
+  }
+}
+
+function goBackFromAnalysis() {
+  if (examReviewMode) {
+    examReviewMode = false;
+    switchTab('exam-result');
+  } else {
+    switchTab('practice');
+  }
 }
 
 function toggleStar(el) {
