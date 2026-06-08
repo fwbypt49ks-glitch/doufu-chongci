@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>豆夫冲刺 - 证券从业考试备考</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --primary: #7C3AED;
+  --primary-light: #EDE9FE;
+  --primary-lighter: #FAF5FF;
+  --primary-dark: #5B21B6;
+  --green: #059669;
+  --green-light: #D1FAE5;
+  --green-bg: #ECFDF5;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --red-bg: #FEF2F2;
+  --orange: #D97706;
+  --orange-light: #FEF3C7;
+  --bg: #FAF5FF;
+  --white: #FFFFFF;
+  --gray-50: #F8FAFC;
+  --gray-100: #F1F5F9;
+  --gray-200: #E2E8F0;
+  --gray-300: #CBD5E1;
+  --gray-400: #94A3B8;
+  --gray-500: #64748B;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1E293B;
+  --gray-900: #0F172A;
+}
+body {
+  font-family: -apple-system, 'Noto Sans SC', 'PingFang SC', 'Helvetica Neue', sans-serif;
+  background: var(--bg);
+  margin: 0; padding: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.phone {
+  width: 100%; min-height: 100vh; min-height: 100dvh;
+  background: var(--bg);
+  position: relative;
+  display: flex; flex-direction: column;
+}
+@media (min-width: 768px) {
+  .phone { max-width: 480px; margin: 0 auto; min-height: 100vh; box-shadow: 0 0 40px rgba(124,58,237,0.08); }
+}
+.status-bar { display: none !important; }
+.status-bar { height: 54px; padding: 14px 24px 0; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+.status-bar .time { font-size: 15px; font-weight: 600; color: var(--gray-900); font-family: 'Inter', sans-serif; }
+.status-bar .icons { display: flex; gap: 6px; align-items: center; }
+.status-bar .icons svg { width: 17px; height: 12px; }
+.tab-bar { height: 60px; padding: 6px 20px 8px; display: flex; justify-content: space-around; align-items: center; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-top: 1px solid var(--gray-200); flex-shrink: 0; position: sticky; bottom: 0; z-index: 100; }
+.tab-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; transition: all 0.2s; }
+.tab-item svg { width: 24px; height: 24px; }
+.tab-item span { font-size: 10px; font-weight: 500; color: var(--gray-400); }
+.tab-item.active svg path, .tab-item.active svg circle { stroke: var(--primary); fill: none; }
+.tab-item.active span { color: var(--primary); font-weight: 600; }
+.content { flex: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 8px; }
+.screen { display: none; min-height: 100%; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* 首页 */
+.home-header { padding: 16px 20px 12px; display: flex; justify-content: space-between; align-items: center; }
+.sprint-badge { background: linear-gradient(135deg, var(--primary), #9333EA); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; }
+.cal-btn { width: 36px; height: 36px; border-radius: 10px; background: var(--white); display: flex; align-items: center; justify-content: center; border: 1px solid var(--gray-200); cursor: pointer; }
+.subject-switch { display: flex; padding: 0 20px; gap: 8px; margin-bottom: 16px; }
+.subject-btn { flex: 1; padding: 10px; border-radius: 12px; text-align: center; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; border: 1.5px solid var(--gray-200); background: var(--white); color: var(--gray-500); }
+.subject-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.quick-entry { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 20px; margin-bottom: 20px; }
+.entry-card { background: var(--white); border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; border: 1px solid var(--gray-200); transition: all 0.2s; }
+.entry-card:hover { border-color: var(--primary); box-shadow: 0 2px 8px rgba(124,58,237,0.1); }
+.entry-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.entry-icon.purple { background: var(--primary-light); }
+.entry-icon.green { background: var(--green-light); }
+.entry-icon.red { background: var(--red-light); }
+.entry-icon.orange { background: var(--orange-light); }
+.entry-card .label { font-size: 14px; font-weight: 600; color: var(--gray-800); }
+.stats-row { display: flex; gap: 10px; padding: 0 20px; margin-bottom: 16px; }
+.stat-card { flex: 1; border-radius: 14px; padding: 14px; text-align: center; }
+.stat-card.purple { background: linear-gradient(135deg, var(--primary), #9333EA); color: #fff; }
+.stat-card.green { background: var(--green-bg); }
+.stat-card .stat-num { font-size: 24px; font-weight: 700; }
+.stat-card .stat-label { font-size: 11px; margin-top: 2px; }
+.stat-card.green .stat-num { color: var(--green); }
+.stat-card.green .stat-label { color: var(--gray-500); }
+.calendar-section { padding: 0 20px; margin-bottom: 16px; }
+.calendar-card { background: var(--white); border-radius: 14px; padding: 14px; border: 1px solid var(--gray-200); }
+.calendar-card .cal-title { font-size: 14px; font-weight: 600; color: var(--gray-800); margin-bottom: 10px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+.cal-grid .day { font-size: 11px; color: var(--gray-400); padding: 4px 0; }
+.cal-grid .date { font-size: 12px; color: var(--gray-700); padding: 4px 0; border-radius: 6px; }
+.cal-grid .date.today { background: var(--primary); color: #fff; font-weight: 600; }
+.cal-grid .date.exam { background: var(--red); color: #fff; font-weight: 600; }
+.countdown-badge { display: inline-flex; align-items: center; gap: 4px; margin-top: 10px; background: var(--red-light); color: var(--red); padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; }
+.motivate-card { margin: 0 20px 20px; padding: 16px; border-radius: 14px; background: linear-gradient(135deg, var(--primary-light), #e0e7ff); border: 1px solid var(--primary-light); }
+.motivate-card .quote { font-size: 14px; color: var(--primary-dark); font-weight: 500; line-height: 1.6; }
+
+/* 题库 */
+.bank-header { padding: 16px 20px 12px; display: flex; justify-content: space-between; align-items: center; }
+.bank-header h2 { font-size: 20px; font-weight: 700; color: var(--gray-900); }
+.filter-btn { padding: 6px 14px; border-radius: 8px; background: var(--white); border: 1px solid var(--gray-200); font-size: 13px; color: var(--gray-600); cursor: pointer; }
+.mode-row { display: flex; gap: 10px; padding: 0 20px; margin-bottom: 20px; }
+.mode-btn { flex: 1; padding: 14px; border-radius: 14px; text-align: center; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.mode-btn.active { background: var(--primary); color: #fff; }
+.mode-btn.inactive { background: var(--white); color: var(--primary); border: 1.5px solid var(--primary); }
+.section-title { padding: 0 20px; font-size: 16px; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; display: flex; align-items: center; }
+.chapter-list { padding: 0 20px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
+.chapter-item { background: var(--white); border-radius: 14px; padding: 16px; border: 1px solid var(--gray-200); cursor: pointer; transition: all 0.2s; }
+.chapter-item:hover { border-color: var(--primary); }
+.chapter-item .ch-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.chapter-item .ch-name { font-size: 15px; font-weight: 600; color: var(--gray-800); }
+.chapter-item .ch-badge { font-size: 11px; padding: 3px 8px; border-radius: 6px; }
+.chapter-item .ch-badge.todo { background: var(--gray-100); color: var(--gray-400); }
+.chapter-item .ch-progress { height: 4px; border-radius: 2px; background: var(--gray-200); margin-bottom: 6px; }
+.chapter-item .ch-progress-fill { height: 4px; border-radius: 2px; background: var(--primary); }
+.chapter-item .ch-info { font-size: 12px; color: var(--gray-400); }
+.past-paper { background: var(--white); border-radius: 14px; margin: 0 20px 10px; padding: 16px; border: 1px solid var(--gray-200); cursor: pointer; transition: all 0.2s; }
+.past-paper:hover { border-color: var(--primary); }
+.past-paper.new-tag { border-color: #FCA5A5; background: linear-gradient(135deg, #FFFBEB, var(--white)); }
+.past-paper .pp-top { display: flex; justify-content: space-between; align-items: center; }
+.past-paper .pp-title { font-size: 15px; font-weight: 600; color: var(--gray-800); display: flex; align-items: center; }
+.past-paper .pp-arrow { color: var(--gray-400); font-size: 18px; }
+.past-paper .pp-info { font-size: 12px; color: var(--gray-400); margin-top: 6px; }
+
+/* 刷题页 */
+.practice-nav { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+.practice-nav .back { font-size: 24px; color: var(--gray-900); cursor: pointer; }
+.practice-nav .progress-text { font-size: 14px; font-weight: 500; color: var(--gray-500); }
+.practice-nav .star { font-size: 20px; cursor: pointer; }
+.progress-bar-wrap { padding: 0 16px; margin-bottom: 16px; }
+.progress-bar-track { height: 4px; border-radius: 2px; background: var(--gray-200); }
+.progress-bar-fill { height: 4px; border-radius: 2px; background: var(--primary); transition: width 0.3s; }
+.question-card { padding: 0 16px; flex: 1; }
+.question-card .q-badge { display: inline-block; background: var(--primary); color: #fff; padding: 3px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-bottom: 10px; }
+.question-card .q-text { font-size: 16px; line-height: 1.7; color: var(--gray-900); margin-bottom: 20px; }
+.options { display: flex; flex-direction: column; gap: 12px; }
+.option-btn { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 12px; background: var(--white); border: 1.5px solid var(--gray-200); cursor: pointer; transition: all 0.2s; }
+.option-btn:hover { border-color: var(--primary-light); }
+.option-btn.selected { border-color: var(--primary); background: var(--primary-lighter); }
+.option-btn .circle { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; background: var(--gray-100); color: var(--gray-500); }
+.option-btn.selected .circle { background: var(--primary); color: #fff; }
+.option-btn .opt-text { font-size: 15px; color: var(--gray-700); }
+.option-btn.selected .opt-text { color: var(--primary); font-weight: 600; }
+.option-btn.correct { border-color: #059669; background: #ECFDF5; }
+.option-btn.correct .circle { background: #059669; color: #fff; }
+.option-btn.correct .opt-text { color: #059669; font-weight: 600; }
+.option-btn.wrong { border-color: #DC2626; background: #FEF2F2; }
+.option-btn.wrong .circle { background: #DC2626; color: #fff; }
+.option-btn.wrong .opt-text { color: #DC2626; font-weight: 600; }
+.practice-bottom { display: flex; gap: 12px; padding: 16px; position: sticky; bottom: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
+.nav-btn { flex: 1; padding: 12px; border-radius: 12px; text-align: center; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.nav-btn.prev { background: var(--white); border: 1.5px solid var(--primary); color: var(--primary); }
+.nav-btn.next { background: var(--primary); color: #fff; border: none; }
+
+/* 错题本 */
+.error-header { padding: 16px 20px 8px; display: flex; justify-content: space-between; align-items: center; }
+.error-header h2 { font-size: 20px; font-weight: 700; color: var(--gray-900); }
+.error-count { background: var(--red-light); color: var(--red); padding: 3px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; }
+.filter-row { display: flex; gap: 8px; padding: 0 20px; margin-bottom: 16px; overflow-x: auto; }
+.filter-tag { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; cursor: pointer; transition: all 0.2s; }
+.filter-tag.active { background: var(--primary); color: #fff; }
+.filter-tag.inactive { background: var(--white); color: var(--gray-500); border: 1px solid var(--gray-200); }
+.error-stats { display: flex; gap: 10px; padding: 0 20px; margin-bottom: 16px; }
+.es-card { flex: 1; padding: 12px; border-radius: 12px; text-align: center; }
+.es-card .es-num { font-size: 22px; font-weight: 700; }
+.es-card .es-label { font-size: 11px; margin-top: 2px; }
+.es-card.red { background: var(--red-bg); }
+.es-card.red .es-num { color: var(--red); }
+.es-card.red .es-label { color: var(--red); }
+.es-card.green { background: var(--green-bg); }
+.es-card.green .es-num { color: var(--green); }
+.es-card.green .es-label { color: var(--green); }
+.es-card.purple { background: var(--primary-light); }
+.es-card.purple .es-num { color: var(--primary); }
+.es-card.purple .es-label { color: var(--primary); }
+.error-list { padding: 0 20px; display: flex; flex-direction: column; gap: 10px; }
+
+/* 考点学习 */
+.search-bar { margin: 0 20px 14px; display: flex; align-items: center; background: var(--white); border-radius: 12px; padding: 10px 14px; border: 1px solid var(--gray-200); }
+.search-bar svg { width: 18px; height: 18px; margin-right: 8px; color: var(--gray-400); flex-shrink: 0; }
+.search-bar input { border: none; outline: none; font-size: 14px; color: var(--gray-700); flex: 1; background: transparent; font-family: inherit; }
+.knowledge-card { background: var(--white); border-radius: 14px; padding: 16px; margin: 0 20px 12px; border: 1px solid var(--gray-200); cursor: pointer; }
+.knowledge-card .kc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.knowledge-card .kc-title { font-size: 15px; font-weight: 600; color: var(--gray-800); }
+.knowledge-card .kc-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.knowledge-card .kc-tag { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+.kc-tag.freq { background: var(--primary-light); color: var(--primary); }
+.kc-tag.mix { background: var(--orange-light); color: var(--orange); }
+.kc-tag.num { background: #DBEAFE; color: #2563EB; }
+.kc-tag.mnemo { background: var(--green-light); color: var(--green); }
+.knowledge-card .kc-chapter { font-size: 12px; color: var(--gray-400); margin-bottom: 8px; }
+.knowledge-card .kc-body { font-size: 13px; color: var(--gray-600); line-height: 1.6; margin-bottom: 8px; white-space: pre-line; }
+.knowledge-card .kc-mnemo { background: var(--primary-lighter); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--primary-dark); font-weight: 500; }
+.knowledge-card .kc-hint { margin-top: 8px; font-size: 13px; color: var(--red); font-weight: 500; }
+.kc-count { font-size: 12px; color: var(--gray-400); font-weight: 400; margin-left: auto; }
+
+/* 章节选择器 */
+#knowledge-chapters::-webkit-scrollbar { display: none; }
+.ch-chip { flex-shrink:0; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:500; background:var(--white); color:var(--gray-500); border:1px solid var(--gray-200); cursor:pointer; transition:all .2s; white-space:nowrap; }
+.ch-chip.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+.ch-chip:not(.active):hover { background:var(--primary-light); color:var(--primary); }
+.kc-section-title { font-size:14px; font-weight:600; color:var(--gray-700); padding:12px 20px 6px; display:flex; align-items:center; gap:6px; }
+.kc-section-title .kc-section-dot { width:8px; height:8px; border-radius:50%; background:var(--primary); }
+
+/* 个人中心 */
+.profile-header { padding: 16px 20px 8px; display: flex; justify-content: space-between; align-items: center; }
+.profile-header h2 { font-size: 20px; font-weight: 700; color: var(--gray-900); }
+.profile-header .settings-icon { cursor: pointer; }
+.overview-card { margin: 12px 20px; padding: 20px; border-radius: 16px; background: linear-gradient(135deg, var(--primary), #9333EA); color: #fff; display: flex; justify-content: space-around; }
+.overview-item { text-align: center; }
+.overview-item .ov-num { font-size: 24px; font-weight: 700; }
+.overview-item .ov-label { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+.plan-section { padding: 0 20px; margin-bottom: 16px; }
+.plan-title { font-size: 16px; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; }
+.plan-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--white); border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--gray-200); }
+.plan-item .check { width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.plan-item .check.todo { background: var(--white); border: 2px solid var(--gray-300); }
+.plan-item .plan-text { font-size: 14px; color: var(--gray-700); }
+.menu-section { padding: 0 20px; }
+.menu-item { display: flex; align-items: center; padding: 14px; background: var(--white); border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--gray-200); cursor: pointer; }
+.menu-item .menu-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 12px; font-size: 18px; }
+.menu-item .menu-label { flex: 1; font-size: 15px; color: var(--gray-800); font-weight: 500; }
+.menu-item .menu-arrow { color: var(--gray-400); }
+
+/* 模拟考场 */
+.exam-top { padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+.timer-wrap { display: flex; align-items: center; gap: 6px; }
+.timer-wrap .timer-text { font-size: 18px; font-weight: 700; color: var(--red); font-family: 'Inter', sans-serif; }
+.exam-subject { padding: 5px 12px; border-radius: 12px; background: var(--primary-light); font-size: 12px; font-weight: 500; color: var(--primary); }
+.submit-btn { padding: 6px 14px; border-radius: 8px; background: var(--red); color: #fff; font-size: 13px; font-weight: 600; border: none; cursor: pointer; }
+.answer-sheet { padding: 12px 16px 20px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
+.answer-sheet .as-label { font-size: 12px; color: var(--gray-400); margin-bottom: 8px; }
+.num-grid { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
+.num-cell { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.num-cell.answered { background: var(--primary); color: #fff; }
+.num-cell.current { background: var(--primary-light); color: var(--primary); }
+.num-cell.unanswered { background: var(--gray-100); color: var(--gray-400); }
+.legend-row { display: flex; gap: 16px; justify-content: center; }
+.legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--gray-400); }
+.legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+/* 答题解析 */
+.analysis-top { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+.analysis-top .back { font-size: 24px; cursor: pointer; color: var(--gray-900); }
+.analysis-top h3 { font-size: 17px; font-weight: 600; color: var(--gray-900); }
+.analysis-top .progress { font-size: 14px; color: var(--gray-400); }
+.result-banner { margin: 8px 16px; padding: 14px 16px; border-radius: 12px; background: var(--red-bg); }
+.result-banner .result-icon { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.result-banner .result-label { font-size: 15px; font-weight: 600; color: var(--red); }
+.result-banner .result-sub { font-size: 13px; color: #7F1D1D; line-height: 1.5; }
+.analysis-card { margin: 0 16px 12px; padding: 16px; border-radius: 14px; background: var(--white); border: 1px solid var(--gray-200); }
+.analysis-card .ac-header { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.analysis-card .q-tag { padding: 3px 8px; border-radius: 4px; background: var(--primary); color: #fff; font-size: 11px; font-weight: 600; }
+.analysis-card .ch-tag { padding: 3px 8px; border-radius: 4px; background: var(--gray-100); color: var(--gray-500); font-size: 11px; }
+.analysis-card .q-text { font-size: 15px; line-height: 1.7; color: var(--gray-900); margin-bottom: 12px; }
+.review-options { display: flex; flex-direction: column; gap: 8px; }
+.review-opt { display: flex; align-items: center; padding: 10px 12px; border-radius: 10px; gap: 10px; font-size: 14px; }
+.review-opt.wrong { background: var(--red-bg); border: 1px solid #FCA5A5; color: var(--red); font-weight: 500; }
+.review-opt.correct { background: var(--green-bg); border: 1px solid #6EE7B7; color: var(--green); font-weight: 600; }
+.review-opt.neutral { background: var(--white); border: 1px solid var(--gray-200); color: var(--gray-400); }
+.review-opt .opt-tag { padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; margin-left: auto; }
+.review-opt.wrong .opt-tag { background: var(--red-light); color: var(--red); }
+.review-opt.correct .opt-tag { background: var(--green-light); color: var(--green); }
+.explanation-section { margin: 0 16px 12px; padding: 16px; border-radius: 14px; background: var(--white); border: 1px solid var(--gray-200); }
+.explanation-section .exp-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.explanation-section .exp-title { font-size: 15px; font-weight: 600; color: var(--primary); }
+.explanation-section .exp-text { font-size: 14px; line-height: 1.7; color: var(--gray-700); margin-bottom: 12px; }
+.mnemo-box { background: var(--primary-lighter); border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; }
+.mnemo-box .mnemo-label { font-size: 12px; font-weight: 500; color: var(--primary); margin-bottom: 4px; }
+.mnemo-box .mnemo-text { font-size: 14px; font-weight: 600; color: var(--primary-dark); }
+.tag-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.analysis-bottom { display: flex; gap: 10px; padding: 12px 16px 28px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); position: sticky; bottom: 0; }
+.ab-btn { padding: 10px 16px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.ab-btn.prev { background: var(--white); border: 1.5px solid var(--primary); color: var(--primary); }
+.ab-btn.error { background: var(--red-bg); border: 1px solid #FCA5A5; color: var(--red); }
+.ab-btn.next { background: var(--primary); color: #fff; border: none; flex: 1; }
+
+.content::-webkit-scrollbar { width: 0; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="icons">
+      <svg viewBox="0 0 17 12" fill="none"><rect x="0" y="8" width="3" height="4" rx="1" fill="#0F172A"/><rect x="4.5" y="5" width="3" height="7" rx="1" fill="#0F172A"/><rect x="9" y="2" width="3" height="10" rx="1" fill="#0F172A"/><rect x="13.5" y="0" width="3" height="12" rx="1" fill="#0F172A"/></svg>
+      <svg viewBox="0 0 16 12" fill="none"><path d="M8 10.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z" fill="#0F172A"/><path d="M4.5 8.5c2-2 5-2 7 0" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round"/><path d="M2 5.5c3.5-3.5 8.5-3.5 12 0" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 27 12" fill="none"><rect x="0.5" y="0.5" width="22" height="11" rx="2" stroke="#0F172A"/><rect x="2" y="2" width="18" height="8" rx="1" fill="#0F172A"/><path d="M24 4v4a2 2 0 000-4z" fill="#0F172A"/></svg>
+    </div>
+  </div>
+
+  <div class="content" id="content">
+    <!-- 首页 -->
+    <div class="screen active" id="screen-home">
+      <div class="home-header">
+        <div class="sprint-badge">🫘 豆夫冲刺</div>
+        <div class="cal-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#64748B" stroke-width="1.5"/><path d="M16 2v4M8 2v4M3 10h18" stroke="#64748B" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      </div>
+      <div class="subject-switch">
+        <div class="subject-btn active" onclick="switchSubject(0)">金融市场基础知识</div>
+        <div class="subject-btn" onclick="switchSubject(1)">证券法律法规</div>
+      </div>
+      <div class="quick-entry">
+        <div class="entry-card" onclick="switchTab('practice')"><div class="entry-icon purple">📝</div><div class="label">刷题</div></div>
+        <div class="entry-card" onclick="switchTab('knowledge')"><div class="entry-icon green">📖</div><div class="label">考点速记</div></div>
+        <div class="entry-card" onclick="switchTab('errors')"><div class="entry-icon red">❌</div><div class="label">错题本</div></div>
+        <div class="entry-card" onclick="switchTab('exam')"><div class="entry-icon orange">🎯</div><div class="label">模拟测试</div></div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card purple"><div class="stat-num">0</div><div class="stat-label">今日刷题</div></div>
+        <div class="stat-card green"><div class="stat-num">0%</div><div class="stat-label">累计正确率</div></div>
+        <div class="stat-card purple" style="background:var(--white);border:1px solid var(--gray-200);"><div class="stat-num" style="color:var(--primary)">0</div><div class="stat-label" style="color:var(--gray-500)">学习天数</div></div>
+      </div>
+      <div class="calendar-section"><div class="calendar-card">
+        <div class="cal-title">📅 6月备考日历</div>
+        <div class="cal-grid">
+          <div class="day">日</div><div class="day">一</div><div class="day">二</div><div class="day">三</div><div class="day">四</div><div class="day">五</div><div class="day">六</div>
+          <div class="date"></div><div class="date">1</div><div class="date">2</div><div class="date">3</div><div class="date">4</div><div class="date">5</div><div class="date">6</div>
+          <div class="date">7</div><div class="date">8</div><div class="date today">9</div><div class="date">10</div><div class="date">11</div><div class="date">12</div><div class="date">13</div>
+          <div class="date">14</div><div class="date">15</div><div class="date">16</div><div class="date">17</div><div class="date">18</div><div class="date">19</div><div class="date">20</div>
+          <div class="date">21</div><div class="date">22</div><div class="date">23</div><div class="date">24</div><div class="date">25</div><div class="date">26</div><div class="date exam">27</div>
+        </div>
+        <div class="countdown-badge">⏰ 距考试还有 19 天</div>
+      </div></div>
+      <div class="motivate-card"><div class="quote">💪 每天进步一点点，19天后你会感谢现在的自己</div></div>
+    </div>
+
+    <!-- 题库 -->
+    <div class="screen" id="screen-bank">
+      <div class="bank-header"><h2>题库</h2><div class="filter-btn">筛选 ↕</div></div>
+      <div class="subject-switch" style="margin-bottom:12px">
+        <div class="subject-btn active" onclick="switchSubject(0)">金融市场基础知识</div>
+        <div class="subject-btn" onclick="switchSubject(1)">证券法律法规</div>
+      </div>
+      <div class="mode-row">
+        <div class="mode-btn active">顺序刷题</div>
+        <div class="mode-btn inactive">随机刷题</div>
+      </div>
+      <div class="section-title">章节练习 <span class="kc-count" id="chapter-count"></span></div>
+      <div class="chapter-list" id="chapter-list"></div>
+      <div class="section-title exam-section-title">历年真题 & 模拟卷 <span class="kc-count"></span><span style="font-size:13px;color:var(--gray-400);font-weight:400;margin-left:auto;">全部 ›</span></div>
+      <div id="exam-list"></div>
+    </div>
+
+    <!-- 刷题页 -->
+    <div class="screen" id="screen-practice">
+      <div class="practice-nav">
+        <div class="back" onclick="switchTab('bank')">‹</div>
+        <div class="progress-text" id="practice-progress">第 1/8 题</div>
+        <div class="chapter-label" id="practice-chapter-label" style="font-size:11px;color:var(--primary);font-weight:600;background:var(--primary-light);padding:2px 8px;border-radius:10px;"></div>
+        <div class="star" onclick="toggleStar(this)">☆</div>
+      </div>
+      <div class="progress-bar-wrap"><div class="progress-bar-track"><div class="progress-bar-fill" id="practice-progress-bar" style="width:3%"></div></div></div>
+      <div class="question-card" id="practice-question-card">
+        <!-- 动态渲染 -->
+      </div>
+      <div class="practice-bottom">
+        <div class="nav-btn prev" onclick="prevQuestion()">上一题</div>
+        <div class="nav-btn next" onclick="nextQuestion()">下一题 →</div>
+      </div>
+    </div>
+
+    <!-- 错题本 -->
+    <div class="screen" id="screen-errors">
+      <div class="error-header"><h2>错题本</h2><div class="error-count">共 0 题</div></div>
+      <div class="filter-row">
+        <div class="filter-tag active">按章节</div>
+        <div class="filter-tag inactive">按时间</div>
+        <div class="filter-tag inactive">高频错题</div>
+      </div>
+      <div class="error-stats">
+        <div class="es-card red"><div class="es-num">0</div><div class="es-label">待巩固</div></div>
+        <div class="es-card green"><div class="es-num">0</div><div class="es-label">已掌握</div></div>
+        <div class="es-card purple"><div class="es-num">0</div><div class="es-label">反复错</div></div>
+      </div>
+      <div class="error-list" style="text-align:center;padding-top:40px">
+        <div style="font-size:48px;margin-bottom:12px">📄</div>
+        <div style="font-size:14px;color:var(--gray-400)">暂无错题，继续保持！</div>
+        <div style="font-size:12px;color:var(--gray-300);margin-top:6px">刷题中答错的题目会自动收录在这里</div>
+      </div>
+    </div>
+
+    <!-- 考点学习 -->
+    <div class="screen" id="screen-knowledge">
+      <div class="bank-header"><h2>考点速记</h2></div>
+      <div class="subject-switch" style="margin-bottom:12px">
+        <div class="subject-btn active" onclick="switchKnowledgeSubject(0)">金融市场基础知识</div>
+        <div class="subject-btn" onclick="switchKnowledgeSubject(1)">证券法律法规</div>
+      </div>
+      <div class="search-bar">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="#94A3B8" stroke-width="1.5"/><path d="M21 21l-4.35-4.35" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input type="text" placeholder="搜索考点..." id="knowledge-search" oninput="renderKnowledge()">
+      </div>
+      <!-- 章节选择器 -->
+      <div id="knowledge-chapters" style="padding:0 16px 8px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch"></div>
+      <div class="filter-row" id="knowledge-filters">
+        <div class="filter-tag active" onclick="filterKnowledge('all')">全部考点</div>
+        <div class="filter-tag inactive" onclick="filterKnowledge('freq')">高频考点</div>
+        <div class="filter-tag inactive" onclick="filterKnowledge('mix')">易混点</div>
+        <div class="filter-tag inactive" onclick="filterKnowledge('num')">数字/年限</div>
+        <div class="filter-tag inactive" onclick="filterKnowledge('mnemo')">口诀</div>
+      </div>
+      <div id="knowledge-list" style="padding-bottom:20px"></div>
+    </div>
+
+    <!-- 个人中心 -->
+    <div class="screen" id="screen-profile">
+      <div class="profile-header"><h2>我的</h2><div class="settings-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="#64748B" stroke-width="1.5"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="#64748B" stroke-width="1.5"/></svg></div></div>
+      <div class="overview-card">
+        <div class="overview-item"><div class="ov-num">0</div><div class="ov-label">累计刷题</div></div>
+        <div class="overview-item"><div class="ov-num">0%</div><div class="ov-label">正确率</div></div>
+        <div class="overview-item"><div class="ov-num">19</div><div class="ov-label">距考试(天)</div></div>
+      </div>
+      <div class="plan-section">
+        <div class="plan-title">今日学习计划</div>
+        <div class="plan-item"><div class="check todo"></div><div class="plan-text">完成第1章考点速记</div></div>
+        <div class="plan-item"><div class="check todo"></div><div class="plan-text">刷第1章章节练习 30 题</div></div>
+        <div class="plan-item"><div class="check todo"></div><div class="plan-text">复盘错题本</div></div>
+      </div>
+      <div class="menu-section">
+        <div class="menu-item"><div class="menu-icon" style="background:var(--primary-light)">📓</div><div class="menu-label">我的笔记</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item" onclick="switchTab('exam')"><div class="menu-icon" style="background:var(--orange-light)">🎯</div><div class="menu-label">模拟考场记录</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item"><div class="menu-icon" style="background:var(--gray-100)">⚙️</div><div class="menu-label">设置</div><div class="menu-arrow">›</div></div>
+      </div>
+    </div>
+
+    <!-- 模拟考场 -->
+    <div class="screen" id="screen-exam">
+      <div class="exam-top">
+        <div class="back" onclick="switchTab('bank')" style="font-size:22px;cursor:pointer;color:var(--gray-900);margin-right:4px">‹</div>
+        <div class="timer-wrap"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#DC2626" stroke-width="1.5"/><path d="M10 5v5l3 3" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="timer-text" id="timer">02:00:00</span></div>
+        <div class="exam-subject" id="exam-subject-label">模拟测试</div>
+        <button class="submit-btn" onclick="submitExam()">交卷</button>
+      </div>
+      <div class="subject-switch" style="padding:0 16px 8px;margin-bottom:0">
+        <div class="subject-btn active" onclick="switchExamSubject(0,this)" style="font-size:12px;padding:6px 10px">金融市场基础知识</div>
+        <div class="subject-btn" onclick="switchExamSubject(1,this)" style="font-size:12px;padding:6px 10px">证券法律法规</div>
+      </div>
+      <div class="progress-bar-wrap" style="padding:4px 16px 8px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;color:var(--gray-500)" id="exam-progress-text">第 1/100 题</span><span style="font-size:13px;color:var(--gray-400)" id="exam-answered-text">已答 0 题</span></div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" id="exam-progress-bar" style="width:1%"></div></div>
+      </div>
+      <div class="question-card" style="flex:1;overflow-y:auto" id="exam-question-card">
+        <!-- 动态渲染 -->
+      </div>
+      <div class="practice-bottom">
+        <div class="nav-btn prev" onclick="examPrev()">上一题</div>
+        <div class="nav-btn next" onclick="examNext()">下一题 →</div>
+      </div>
+      <div class="answer-sheet">
+        <div class="as-label">答题卡 <span id="exam-answer-summary" style="float:right">0/100 已答</span></div>
+        <div class="num-grid" id="exam-num-grid"></div>
+        <div class="legend-row">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--primary)"></div>已答</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--primary-light)"></div>当前</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--gray-100)"></div>未答</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 答题解析 -->
+    <div class="screen" id="screen-analysis">
+      <div class="analysis-top"><div class="back" onclick="switchTab('practice')">‹</div><h3>答题解析</h3><div class="progress" id="analysis-progress">1/36</div></div>
+      <div style="flex:1;overflow-y:auto;padding-bottom:8px" id="analysis-content">
+        <!-- 动态渲染 -->
+      </div>
+      <div class="analysis-bottom">
+        <div class="ab-btn prev" onclick="goPrevFromAnalysis()">上一题</div>
+        <div class="ab-btn error" onclick="alert('已加入错题本！')">+错题本</div>
+        <div class="ab-btn next" onclick="goNextFromAnalysis()">下一题 →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab-item active" onclick="switchTab('home')"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l9-9 9 9" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v9a1 1 0 001 1h3v-5h6v5h3a1 1 0 001-1v-9" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>首页</span></div>
+    <div class="tab-item" onclick="switchTab('bank')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>题库</span></div>
+    <div class="tab-item" onclick="switchTab('knowledge')"><svg viewBox="0 0 24 24" fill="none"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>考点</span></div>
+    <div class="tab-item" onclick="switchTab('profile')"><svg viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="7" r="4" stroke="#94A3B8" stroke-width="1.5"/></svg><span>我的</span></div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const subjects = [
+  { name: '金融市场基础知识', chapters: [
+    { name: '第1章 金融市场体系', count: 36 },
+    { name: '第2章 中国的金融体系', count: 42 },
+    { name: '第3章 证券市场主体', count: 38 },
+    { name: '第4章 股票', count: 45 },
+    { name: '第5章 债券', count: 32 },
+    { name: '第6章 证券投资基金', count: 40 },
+    { name: '第7章 金融衍生工具', count: 28 },
+    { name: '第8章 金融风险管理', count: 35 }
+  ]},
+  { name: '证券法律法规', chapters: [
+    { name: '第1章 证券市场基本法律法规', count: 45 },
+    { name: '第2章 证券经营机构管理规范', count: 38 },
+    { name: '第3章 证券公司业务规范', count: 42 },
+    { name: '第4章 证券市场典型违法违规行为及法律责任', count: 35 },
+    { name: '第5章 行业文化、职业道德与从业人员行为规范', count: 30 }
+  ]}
+];
+
+// 历年真题 + 模拟题（按科目分组）
+const examPapers = [
+  // 金融市场基础知识
+  [
+    { title: '2026年233网校全真模拟一', count: 100, time: 120, source: '233网校', tag: '2026新题' },
+    { title: '2026年233网校全真模拟二', count: 100, time: 120, source: '233网校', tag: '2026新题' },
+    { title: '2026年乐橙题库押题卷一', count: 100, time: 120, source: '乐橙题库', tag: '2026新题' },
+    { title: '2026年乐橙题库押题卷二', count: 100, time: 120, source: '乐橙题库', tag: '2026新题' },
+    { title: '2026年乐橙题库冲刺卷', count: 100, time: 120, source: '乐橙题库', tag: '2026新题' },
+    { title: '2025年6月统一测试', count: 120, time: 120, source: '真题', tag: '' },
+    { title: '2025年3月专场测试', count: 120, time: 120, source: '真题', tag: '' },
+    { title: '2024年11月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2024年6月统一测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2024年3月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2023年11月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2023年6月统一测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2023年3月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2022年11月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2022年6月统一测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2022年3月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2021年11月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2021年6月统一测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2021年3月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2020年11月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2020年6月统一测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2020年3月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2019年11月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2019年6月统一测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2019年3月专场测试', count: 100, time: 120, source: '真题', tag: '' }
+  ],
+  // 证券法律法规
+  [
+    { title: '2026年233网校全真模拟一', count: 100, time: 120, source: '233网校', tag: '2026新题' },
+    { title: '2026年233网校全真模拟二', count: 100, time: 120, source: '233网校', tag: '2026新题' },
+    { title: '2026年233网校全真模拟三', count: 100, time: 120, source: '233网校', tag: '2026新题' },
+    { title: '2026年乐橙题库押题卷一', count: 100, time: 120, source: '乐橙题库', tag: '2026新题' },
+    { title: '2026年乐橙题库押题卷二', count: 100, time: 120, source: '乐橙题库', tag: '2026新题' },
+    { title: '2025年6月统一测试', count: 120, time: 120, source: '真题', tag: '' },
+    { title: '2025年3月专场测试', count: 120, time: 120, source: '真题', tag: '' },
+    { title: '2024年11月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2024年6月统一测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2024年3月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2023年11月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2023年6月统一测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2023年3月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2022年11月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2022年6月统一测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2022年3月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2021年11月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2021年6月统一测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2021年3月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2020年11月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2020年6月统一测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2020年3月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2019年11月专场测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2019年6月统一测试', count: 100, time: 120, source: '真题', tag: '' },
+    { title: '2019年3月专场测试', count: 100, time: 120, source: '真题', tag: '' }
+  ]
+];
+
+// 考点速记（按章节分组，每章8-12条）
+let knowledgeChapter = -1; // -1=全部章节
+const knowledgeData = [
+  // ===== 金融市场基础知识 =====
+  // --- 第1章 金融市场体系 (10条) ---
+  {s:0, ch:'第1章', title:'金融市场的功能', tags:['freq','mnemo'], mnemo:'💡 融配调反 → 融通、配置、调节、反映', body:'1.资金融通(最基本) 2.资本配置 3.价格发现 4.风险管理 5.提供流动性 6.降低搜寻成本与信息成本'},
+  {s:0, ch:'第1章', title:'直接融资 vs 间接融资', tags:['mix'], body:'直接融资：资金供求双方直接交易(股票/债券/商业票据)\n间接融资：通过金融中介(银行贷款/信托)\n关键区别：是否通过金融中介\n直接融资优点：资金成本低；缺点：风险大'},
+  {s:0, ch:'第1章', title:'金融市场分类（按期限）', tags:['mix'], body:'货币市场(≤1年)：同业拆借、商业票据、回购协议、国库券\n资本市场(>1年)：股票、中长期债券、基金'},
+  {s:0, ch:'第1章', title:'金融市场分类（按其他维度）', tags:['mix'], body:'按交易性质：发行市场(一级) vs 流通市场(二级)\n按交割方式：现货市场 vs 衍生品市场\n按地域：国内金融市场 vs 国际金融市场\n按交易对象：资金市场、外汇市场、保险市场、黄金市场'},
+  {s:0, ch:'第1章', title:'全球金融市场发展历程', tags:['num'], body:'1602年：阿姆斯特丹证交所(世界首个)\n1773年：伦敦证交所\n1792年：纽约证交所\n1990年：上交所/深交所成立'},
+  {s:0, ch:'第1章', title:'中国金融市场里程碑', tags:['num','mnemo'], mnemo:'💡 90沪深，04中小，09创业，19科创', body:'1990年上交所/深交所成立\n2004年中小板(深交所)\n2009年创业板\n2019年科创板(上交所)\n2021年北京证券交易所'},
+  {s:0, ch:'第1章', title:'金融市场参与者', tags:['mix'], body:'1.政府部门(资金需求者) 2.企业(资金需求/供给) 3.居民(资金供给者) 4.金融机构(中介) 5.中央银行(监管+调控)'},
+  {s:0, ch:'第1章', title:'金融市场的风险管理功能', tags:['freq'], body:'1.分散风险：通过资产组合 2.转移风险：通过衍生品 3.规避风险：通过套期保值 4.补偿风险：通过保险机制'},
+  {s:0, ch:'第1章', title:'货币市场子市场', tags:['mix','freq'], body:'同业拆借市场：银行间短期借贷\n商业票据市场：企业短期融资\n回购协议市场：证券质押融资\n国库券市场：政府短期融资\n大额可转让定期存单市场'},
+  {s:0, ch:'第1章', title:'资本市场与货币市场对比', tags:['mix'], body:'资本市场：期限>1年、风险较高、收益较高、流动性较低\n货币市场：期限≤1年、风险较低、收益较低、流动性较高\n联系：货币市场是资本市场的基础'},
+
+  // --- 第2章 中国的金融体系 (10条) ---
+  {s:0, ch:'第2章', title:'中央银行的职能', tags:['freq','mnemo'], mnemo:'💡 发的政 → 发行的银行、银行的银行、政府的银行', body:'1.发行的银行：垄断货币发行权\n2.银行的银行：最后贷款人、集中存款准备金、组织清算\n3.政府的银行：代理国库、管理政府资金'},
+  {s:0, ch:'第2章', title:'货币政策工具三大法宝', tags:['freq','mnemo'], mnemo:'💡 存公开 → 存款准备金、公开市场业务、再贴现', body:'1.法定存款准备金率(最猛烈) 2.公开市场操作(最常用) 3.再贴现政策'},
+  {s:0, ch:'第2章', title:'存款准备金率调整影响', tags:['mix','freq'], body:'上调→冻结银行资金→减少货币供应→抑制通胀\n下调→释放银行资金→增加货币供应→刺激经济\n特点：效果最猛烈，不宜频繁使用'},
+  {s:0, ch:'第2章', title:'我国金融机构体系', tags:['mix'], body:'央行(中国人民银行)→政策性银行→商业银行→非银行金融机构\n政策性银行：国开行/进出口银行/农发行(不以盈利为目的)\n商业银行：工农中建交等'},
+  {s:0, ch:'第2章', title:'利率分类', tags:['mix','num'], body:'名义利率 vs 实际利率：实际≈名义-通胀率\n固定利率 vs 浮动利率\n市场利率 vs 法定利率\n基准利率：Shibor(上海银行间同业拆放利率)\nLPR(贷款市场报价利率)：1年期/5年期以上'},
+  {s:0, ch:'第2章', title:'货币政策目标', tags:['freq'], body:'最终目标：稳定物价、充分就业、经济增长、国际收支平衡\n中介目标：货币供应量、利率\n操作目标：基础货币、准备金'},
+  {s:0, ch:'第2章', title:'货币供应量层次', tags:['num','freq'], body:'M0=流通中现金\nM1=M0+单位活期存款(狭义货币)\nM2=M1+准货币(定期存款+储蓄存款+其他存款)(广义货币)\nM2-M1=准货币'},
+  {s:0, ch:'第2章', title:'政策性银行', tags:['mix'], mnemo:'💡 国开进出农发 → 国开行、进出口、农发行', body:'国开行：重点建设项目融资\n进出口银行：进出口贸易融资\n农发行：农业政策性金融\n特点：不以盈利为目的、不吸收居民存款'},
+  {s:0, ch:'第2章', title:'商业银行的业务', tags:['mix','freq'], body:'负债业务：存款(最主要)、借款\n资产业务：贷款(最主要)、投资、现金资产\n中间业务：结算、代理、托管(不构成表内资产负债)'},
+  {s:0, ch:'第2章', title:'多层次资本市场', tags:['freq'], body:'主板：大型成熟企业\n科创板：硬科技企业(注册制)\n创业板：成长型创新企业\n北交所：专精特新中小企业\n新三板：非上市公众公司'},
+
+  // --- 第3章 证券市场主体 (10条) ---
+  {s:0, ch:'第3章', title:'证券发行制度', tags:['freq','mix'], body:'核准制 vs 注册制\n2019年科创板试点注册制\n2023年全面实行注册制\n注册制核心：以信息披露为核心\n核准制核心：实质审查+价值判断'},
+  {s:0, ch:'第3章', title:'证券公司设立条件', tags:['num','mnemo'], mnemo:'💡 一亿五亿 → 经纪1亿，综合5亿', body:'证券公司注册资本最低限额：\n经纪业务：1亿元\n综合业务：5亿元\n重要事项变更需证监会批准'},
+  {s:0, ch:'第3章', title:'证券交易所的职能', tags:['freq'], body:'1.提供证券交易场所和设施 2.制定业务规则 3.组织监督交易 4.对会员和上市公司监管\n性质：自律性法人，不以盈利为目的'},
+  {s:0, ch:'第3章', title:'证券登记结算公司', tags:['num'], body:'设立条件：自有资金不少于2亿元\n职能：证券账户/结算账户设立、证券存管和过户、证券持有人名册登记\n结算原则：净额结算、货银对付'},
+  {s:0, ch:'第3章', title:'证券服务机构的类型', tags:['mix'], body:'1.证券投资咨询机构 2.资信评级机构 3.资产评估机构 4.会计师事务所 5.律师事务所\n责任：出具文件虚假→连带赔偿责任'},
+  {s:0, ch:'第3章', title:'证券业协会', tags:['freq'], body:'性质：自律性组织\n职能：制定自律规则、从业资格考试、从业人员管理、纠纷调解\n会员：证券公司应当加入(强制会员制)'},
+  {s:0, ch:'第3章', title:'证监会的监管职能', tags:['freq'], body:'1.制定证券市场规章规则 2.核准证券发行 3.监管证券交易 4.监管上市公司 5.监管证券经营机构 6.依法查处违法行为'},
+  {s:0, ch:'第3章', title:'证券投资者保护基金', tags:['num'], body:'来源：交易经手费20%、证券公司营业收入0.5%~5%\n用途：证券公司被撤销/关闭时补偿投资者\n上限：个人客户最高赔付10万元(旧规)/50万元(新规)'},
+  {s:0, ch:'第3章', title:'上市公司治理', tags:['mix'], body:'独立董事：不少于1/3\n董事会：年度会议每年至少1次\n股东大会：年度大会+临时大会\n累积投票制：选举董事/监事时可用'},
+  {s:0, ch:'第3章', title:'首次公开发行(IPO)条件', tags:['num','freq'], body:'主板：最近3年连续盈利、净利润均为正\n科创板：不要求盈利，但需满足市值+收入/研发指标\n创业板：最近2年盈利且净利润≥5000万，或市值≥10亿+收入≥1亿'},
+
+  // --- 第4章 股票 (12条) ---
+  {s:0, ch:'第4章', title:'股票的特征', tags:['freq','mnemo'], mnemo:'💡 收参风流永 → 收益性、参与性、风险性、流动性、永久性', body:'1.收益性(最基本特征) 2.参与性 3.风险性 4.流动性 5.永久性(无期限)'},
+  {s:0, ch:'第4章', title:'普通股 vs 优先股', tags:['mix','freq'], body:'普通股：投票权、股利不固定、剩余财产分配在后\n优先股：无投票权(一般)、股利固定、剩余财产优先分配\n优先股特殊：修改章程等重大事项有表决权'},
+  {s:0, ch:'第4章', title:'A股/B股/H股/N股/S股', tags:['mix'], body:'A股：人民币普通股，境内发行，人民币认购\nB股：人民币特种股，境内发行，外币认购\nH股：香港上市  N股：纽约上市  S股：新加坡上市\n红筹股：境外注册、香港上市、主要业务在内地的企业'},
+  {s:0, ch:'第4章', title:'股票发行价格', tags:['num'], body:'IPO定价方式：询价制\n网上申购：沪市1000股整数倍，深市500股整数倍\n科创板：500股整数倍\n中签率：通常0.01%~0.5%'},
+  {s:0, ch:'第4章', title:'股票除权除息', tags:['mix'], body:'除权(XR)：送股/配股导致股价调整\n除息(XD)：现金分红导致股价调整\nDR=除权除息\n除权价=(前收盘价-每股红利+配股价×配股比例)÷(1+送股比例+配股比例)'},
+  {s:0, ch:'第4章', title:'股价指数计算', tags:['freq'], body:'上证综指：派许加权综合价格指数\n沪深300：自由流通股本加权(反映大盘)\n中证500：扣除沪深300后排名301-800(反映中小盘)\n上证50：沪市大盘蓝筹'},
+  {s:0, ch:'第4章', title:'股票估值方法', tags:['mix','freq'], body:'绝对估值：DDM(股利折现)、DCF(自由现金流折现)\n相对估值：P/E(市盈率)、P/B(市净率)、P/S(市销率)\nP/E=股价/每股收益  P/B=股价/每股净资产'},
+  {s:0, ch:'第4章', title:'股利分配', tags:['mix'], body:'现金股利：直接发钱\n股票股利：送红股(转增)\n资本公积转增：不是利润分配\n注意：资本公积转增股本不纳税，红利需纳税'},
+  {s:0, ch:'第4章', title:'股票交易制度', tags:['num'], body:'T+1交割：当日买入次日方可卖出\n涨跌幅限制：主板±10%，科创板/创业板±20%\n集合竞价：9:15-9:25(开盘)\n连续竞价：9:30-11:30, 13:00-14:57'},
+  {s:0, ch:'第4章', title:'股本与股份', tags:['num'], body:'总股本=流通股+限售股\n流通股：可在二级市场交易\n限售股：限售期内不可交易\nIPO限售：控股股东36个月，其他股东12个月'},
+  {s:0, ch:'第4章', title:'注册制下IPO流程', tags:['freq'], body:'1.董事会/股东大会决议 2.聘请中介机构 3.制作申请文件 4.交易所审核(问询) 5.证监会注册 6.发行上市\n审核时间：交易所3个月+证监会20个工作日'},
+  {s:0, ch:'第4章', title:'退市制度', tags:['num','freq'], body:'交易类退市：连续20个交易日收盘价<1元\n财务类退市：净利润为负且营收<1亿元\n退市整理期：15个交易日\n退市后可转入三板市场'},
+
+  // --- 第5章 债券 (10条) ---
+  {s:0, ch:'第5章', title:'债券与股票的区别', tags:['mix','freq'], body:'债券：固定收益、优先偿还、无管理权、有期限、风险低\n股票：不固定收益、剩余财产分配、有投票权、无期限、风险高\n共同点：都是有价证券、都是筹资方式'},
+  {s:0, ch:'第5章', title:'债券发行条件-净资产要求', tags:['num','freq','mnemo'], mnemo:'💡 股三有六 → 股份公司3000万，有限公司6000万', body:'股份有限公司净资产≥3000万元\n有限责任公司净资产≥6000万元\n累计债券余额不超过净资产40%'},
+  {s:0, ch:'第5章', title:'国债类型与期限', tags:['num'], body:'短期国债：1年以内(含1年)\n中期国债：1~10年(含10年)\n长期国债：10年以上\n记账式国债 vs 凭证式国债 vs 储蓄国债(电子式)'},
+  {s:0, ch:'第5章', title:'公司债券信用评级', tags:['num'], mnemo:'💡 BBB是分水岭，以上投资以下投机', body:'AAA：最高级，偿还能力最强\nAA：高级  A：中上级\nBBB：中级(投资级分界线)\nBB及以下：投机级(垃圾债/高收益债)'},
+  {s:0, ch:'第5章', title:'可转换公司债券', tags:['mix','freq'], body:'特性：债券+股票看涨期权\n转股价格≥公告前20日均价和前1日均价\n转换比例=债券面值÷转股价格\n回售条款：保护投资者，发行人可赎回'},
+  {s:0, ch:'第5章', title:'债券定价', tags:['freq','num'], body:'债券价格=未来现金流现值之和\n市场利率↑→债券价格↓(反向关系)\n票面利率>市场利率→溢价发行\n票面利率<市场利率→折价发行\n票面利率=市场利率→平价发行'},
+  {s:0, ch:'第5章', title:'债券久期', tags:['num'], body:'久期：债券价格对利率变动的敏感度\n久期越长→利率风险越大\n修正久期=麦考利久期/(1+到期收益率)\n价格变动≈-修正久期×利率变动'},
+  {s:0, ch:'第5章', title:'地方政府债券', tags:['mix'], body:'一般债券：用于公益性项目，以一般公共预算收入偿还\n专项债券：用于有一定收益的项目，以政府性基金偿还\n限额管理：国务院确定，全国人大批准'},
+  {s:0, ch:'第5章', title:'金融债券', tags:['mix'], body:'发行人：政策性银行、商业银行、证券公司等\n政策性金融债：国开行等发行，信用等级高\n次级债券：偿付顺序在存款之后，可计入附属资本\n发行条件：核心资本充足率不低于5%'},
+  {s:0, ch:'第5章', title:'债券收益率', tags:['num','freq'], body:'票面收益率=年利息/面值\n当前收益率=年利息/购买价格\n到期收益率(YTM)：持有到期年化收益率\n持有期收益率=(利息+卖出价-买入价)/买入价'},
+
+  // --- 第6章 证券投资基金 (10条) ---
+  {s:0, ch:'第6章', title:'基金当事人关系', tags:['mix','freq'], body:'基金份额持有人→基金托管人→基金管理人\n持有人：基金投资者(所有者)\n托管人：保管基金资产(银行，监督管理人)\n管理人：运作基金资产(基金公司)'},
+  {s:0, ch:'第6章', title:'基金份额净值计算', tags:['num','freq'], body:'基金份额净值=(总资产-总负债)÷基金总份额\n申购费：金额×申购费率(通常1.5%)\n赎回费：份额×净值×赎回费率(持有时间越长费率越低)'},
+  {s:0, ch:'第6章', title:'开放式基金 vs 封闭式基金', tags:['mix','freq'], body:'开放式：规模可变、可赎回、价格按净值、无存续期\n封闭式：规模固定、不可赎回(可转让)、价格由市场决定、有存续期\n折价率：封闭式基金市价<净值时为折价'},
+  {s:0, ch:'第6章', title:'ETF vs LOF', tags:['mix'], body:'ETF：交易型开放式指数基金，一篮子股票申赎，实时交易\nLOF：上市开放式基金，现金申赎，可场内场外\nETF优势：费率低、跟踪误差小、交易便捷'},
+  {s:0, ch:'第6章', title:'基金信息披露时间要求', tags:['num'], body:'日报：基金净值(每个开放日次日)\n季报：季度结束后15个工作日\n半年报：上半年结束后60日\n年报：年度结束后90日\n重大事件：2日内公告'},
+  {s:0, ch:'第6章', title:'基金管理公司设立条件', tags:['num'], body:'注册资本≥1亿元人民币\n主要股东：注册资本≥3亿元\n最近3年无违法记录\n持有人数：开放式基金>200人方可成立'},
+  {s:0, ch:'第6章', title:'基金投资限制', tags:['freq'], body:'一只基金持有一家公司证券≤该证券10%\n同一基金管理人全部基金持有一家公司证券≤该证券30%\n基金财产不得：承销证券、向他人贷款/担保、承担无限责任'},
+  {s:0, ch:'第6章', title:'基金分类', tags:['mix'], body:'按投资对象：股票型(≥80%股票)/债券型(≥80%债券)/混合型/货币型\n按投资理念：主动型/被动型(指数基金)\n按募集方式：公募/私募\n货币基金：摊余成本法，T+1确认，T+2赎回到账'},
+  {s:0, ch:'第6章', title:'基金费用', tags:['num'], body:'管理费：0.5%~2%/年(按日计提)\n托管费：0.1%~0.25%/年\n申购费：通常1%~1.5%(前端/后端)\n赎回费：持有<7天收1.5%惩罚性赎回费'},
+  {s:0, ch:'第6章', title:'基金估值原则', tags:['freq'], body:'上市股票/债券：收盘价估值\n未上市股票：成本估值\n停牌股票：指数收益法/市盈率法\n估值日：每个开放日\n估值错误<0.5%无需调整'},
+
+  // --- 第7章 金融衍生工具 (10条) ---
+  {s:0, ch:'第7章', title:'金融衍生工具特征', tags:['freq','mnemo'], mnemo:'💡 跨杠联高 → 跨期性、杠杆性、联动性、高风险性', body:'1.跨期交易(未来结算) 2.杠杆效应(保证金交易) 3.联动性(与标的资产挂钩) 4.不确定性/高风险性'},
+  {s:0, ch:'第7章', title:'期货 vs 期权', tags:['mix','freq'], body:'期货：双方权利义务对等、每日无负债结算、保证金制度\n期权：买方有权利无义务、卖方有义务无权利\n看涨期权=买权(Call) 看跌期权=卖权(Put)\n期权买方最大损失=权利金'},
+  {s:0, ch:'第7章', title:'金融期货 vs 金融远期', tags:['mix'], body:'期货：交易所交易、标准化合约、每日结算、可对冲、低违约风险\n远期：场外交易(OTC)、非标准化、到期结算、不可对冲、违约风险高'},
+  {s:0, ch:'第7章', title:'权证分类', tags:['mix'], body:'认购权证：买入标的证券的权利\n认沽权证：卖出标的证券的权利\n欧式权证：仅到期日行权\n美式权证：到期日前任一天行权\n百慕大权证：指定期间行权'},
+  {s:0, ch:'第7章', title:'可转换债券要素', tags:['num','freq'], body:'有效期限：1~6年\n转换期限：发行结束之日起6个月后\n转股价格：不低于公告前20日均价和前1日均价\n回售条款：保护投资者\n赎回条款：保护发行人'},
+  {s:0, ch:'第7章', title:'期货保证金制度', tags:['num'], body:'初始保证金：开仓时缴纳(合约价值5%~15%)\n维持保证金：低于此线需追加(通常初始的75%)\n逐日盯市：每日结算盈亏\n强制平仓：保证金不足且未及时追加'},
+  {s:0, ch:'第7章', title:'金融互换', tags:['mix'], body:'利率互换：固定利率与浮动利率互换(本金不交换)\n货币互换：不同货币本金+利息交换\n信用违约互换(CDS)：信用风险保险\n最常见：利率互换'},
+  {s:0, ch:'第7章', title:'期权定价因素', tags:['num','freq'], body:'影响期权价格因素：标的资产价格、行权价格、到期时间、波动率、无风险利率\n看涨期权：标的价格↑→期权价格↑\n看跌期权：标的价格↑→期权价格↓\n到期时间越长→期权价值越高(时间价值)'},
+  {s:0, ch:'第7章', title:'股指期货', tags:['mix'], body:'标的：沪深300指数(IF)、上证50指数(IH)、中证500指数(IC)\n合约乘数：每点300元(IF)\n最低交易保证金：合约价值8%\n交割方式：现金交割'},
+  {s:0, ch:'第7章', title:'资产证券化', tags:['freq'], body:'含义：将缺乏流动性但能产生稳定现金流的资产转为证券\n参与者：发起人、SPV(特殊目的载体)、信用增级机构、评级机构\nSPV核心作用：破产隔离\n类型：MBS(住房抵押贷款)、ABS(资产支持证券)'},
+
+  // --- 第8章 金融风险管理 (10条) ---
+  {s:0, ch:'第8章', title:'金融风险分类', tags:['freq','mnemo'], mnemo:'💡 市信流操 → 市场风险、信用风险、流动性风险、操作风险', body:'1.市场风险(价格波动) 2.信用风险(违约) 3.流动性风险(无法变现) 4.操作风险(内部流程/人员/系统)\n巴塞尔协议新增：声誉风险、战略风险'},
+  {s:0, ch:'第8章', title:'VaR(风险价值)', tags:['freq','num'], body:'VaR：在给定置信水平和时间区间下，资产组合的最大预期损失\n如：95%置信度下1天VaR=100万元\n含义：有95%的概率损失不超过100万\n计算方法：历史模拟法、方差-协方差法、蒙特卡洛模拟法'},
+  {s:0, ch:'第8章', title:'系统性风险 vs 非系统性风险', tags:['mix','freq'], body:'系统性：影响所有资产，不可分散(利率/通胀/政策/战争)\n非系统性：仅影响个别资产，可分散(经营/财务/信用风险)\n分散化投资只能消除非系统性风险\n系统性风险用β系数衡量'},
+  {s:0, ch:'第8章', title:'风险管理体系', tags:['freq'], body:'1.风险识别 2.风险计量 3.风险监测 4.风险控制\n巴塞尔协议三大支柱：\n第一支柱：最低资本要求\n第二支柱：监管审查\n第三支柱：市场纪律(信息披露)'},
+  {s:0, ch:'第8章', title:'资本充足率要求', tags:['num','mnemo'], mnemo:'💡 五六八 → 核心一级5%，一级6%，总资本8%', body:'核心一级资本充足率≥5%(含缓冲后≥8%)\n一级资本充足率≥6%(含缓冲后≥9.5%)\n资本充足率≥8%(含缓冲后≥11.5%)\n缓冲资本：2.5%'},
+  {s:0, ch:'第8章', title:'信用风险管理', tags:['freq'], body:'5C分析：品格(Character)、能力(Capacity)、资本(Capital)、担保(Collateral)、环境(Condition)\n信用评级：AAA~D\n信用衍生品：CDS(信用违约互换)\n贷款五级分类：正常/关注/次级/可疑/损失'},
+  {s:0, ch:'第8章', title:'市场风险管理', tags:['freq'], body:'工具：久期、凸性、VaR、压力测试、情景分析\n利率风险：重新定价风险、基准风险、收益率曲线风险、期权性风险\n汇率风险：交易风险、会计风险、经济风险'},
+  {s:0, ch:'第8章', title:'流动性风险管理', tags:['mix'], body:'资产流动性风险：资产无法以合理价格变现\n负债流动性风险：无法以合理成本筹集资金\n衡量指标：流动性覆盖率(LCR)、净稳定资金比率(NSFR)\nLCR≥100%, NSFR≥100%'},
+  {s:0, ch:'第8章', title:'操作风险管理', tags:['mix'], body:'内部欺诈、外部欺诈、就业制度、客户/产品/业务活动\n实物资产损坏、信息科技系统、执行/交割/流程管理\n巴塞尔协议：基本指标法、标准法、高级计量法'},
+  {s:0, ch:'第8章', title:'压力测试', tags:['freq'], body:'目的：评估极端不利情况下的风险承受能力\n类型：敏感性分析(单因素)、情景分析(多因素)\n监管要求：定期开展，结果报告管理层和监管\n重大风险事件后须立即进行'},
+
+  // ===== 证券法律法规 =====
+  // --- 第1章 证券市场基本法律法规 (12条) ---
+  {s:1, ch:'第1章', title:'《证券法》适用范围', tags:['freq'], body:'在中国境内：股票/公司债券/政府债券/投资基金份额/证券衍生品的发行和交易\n注意：不适用于保险/票据等由其他法律规范的产品\n域外适用：境外发行证券损害境内投资者权益也适用'},
+  {s:1, ch:'第1章', title:'证券发行注册制', tags:['freq'], body:'全面注册制(2023年2月17日起)\n以信息披露为核心\n审核主体：证券交易所审核+证监会注册\n科创板2019年率先试点\n主板2023年全面推行'},
+  {s:1, ch:'第1章', title:'证券交易限制', tags:['num','freq'], body:'短线交易：6个月内买卖收益归公司所有\n大股东减持：预披露制度(5%以上)\n限售期：IPO锁12月，控股股东锁36月\n董监高：任职期间每年转让≤25%'},
+  {s:1, ch:'第1章', title:'信息披露基本要求', tags:['freq'], body:'真实、准确、完整、及时、公平\n年报：4月30日前\n半年报：8月31日前\n季报：结束后1个月内\n临时报告：重大事件2日内'},
+  {s:1, ch:'第1章', title:'内幕交易', tags:['freq','mix'], body:'内幕信息知情人利用内幕信息进行交易\n内幕信息：未公开、对价格有重大影响\n违法所得1~5倍罚款(最高500万)\n刑事：情节严重处5年以下，特别严重5~10年'},
+  {s:1, ch:'第1章', title:'操纵市场行为', tags:['freq','mnemo'], mnemo:'💡 连自他 → 连续买卖、自买自卖、他人配合', body:'1.连续买卖操纵 2.约定交易(自买自卖) 3.洗售 4.蛊惑交易 5.抢帽子交易\n罚款：30万~300万\n刑事：情节严重5年以下'},
+  {s:1, ch:'第1章', title:'虚假陈述', tags:['num'], body:'行政处罚：30万~60万(个人)、60万~1000万(公司)\n民事赔偿：推定过错责任\n诉讼时效：3年(自知道或应当知道之日起)\n集体诉讼：投资者保护机构可代为诉讼'},
+  {s:1, ch:'第1章', title:'违规处罚金额速记', tags:['num','mnemo'], mnemo:'💡 内一五、操三三、虚六一 → 内幕1~5倍，操纵30~300万，虚假60~1000万', body:'内幕交易：违法所得1~5倍罚款\n操纵市场：30万~300万罚款\n虚假陈述：60万~1000万罚款(注册制后上限提升)'},
+  {s:1, ch:'第1章', title:'基金法关键数字', tags:['num'], body:'基金管理人注册资本≥1亿元\n基金托管人净资产≥80亿元\n基金份额持有人大会：代表50%以上份额方可召开\n封闭式基金存续期≥5年'},
+  {s:1, ch:'第1章', title:'期货交易制度', tags:['freq'], body:'保证金制度、当日无负债结算制度、涨跌停板制度、持仓限额制度、大户报告制度、强行平仓制度\n期货公司：注册资本≥3000万元'},
+  {s:1, ch:'第1章', title:'公司法核心要点', tags:['freq','num'], body:'有限责任公司：50人以下股东\n股份有限公司：2~200人发起人\n注册资本：认缴制(一般无最低限额)\n一人公司：1个股东(自然人或法人)'},
+  {s:1, ch:'第1章', title:'合伙企业法', tags:['mix'], body:'普通合伙：无限连带责任\n有限合伙：GP无限+LP有限责任\n特殊普通合伙：适用于专业服务机构\n合伙企业不缴纳企业所得税(先分后税)'},
+
+  // --- 第2章 证券经营机构管理规范 (10条) ---
+  {s:1, ch:'第2章', title:'证券公司治理准则', tags:['freq'], body:'独立董事不少于1/4\n董事会至少1名独立董事\n监事会：职工代表≥1/3\n高级管理人员不得在控股股东兼任\n股东会/董事会/监事会三会分立'},
+  {s:1, ch:'第2章', title:'证券公司净资本要求', tags:['num','freq','mnemo'], mnemo:'💡 经2综5承5保1 → 经纪2亿、综合5亿、承销5亿、保荐1亿', body:'经纪业务：净资本≥2亿元\n综合类：净资本≥5亿元\n承销业务：净资本≥5亿元\n保荐业务：净资本≥1亿元'},
+  {s:1, ch:'第2章', title:'证券公司风险控制指标', tags:['num','mnemo'], mnemo:'💡 一四八二十 → 风险资本100%、净资产40%、负债8%、负债20%', body:'净资本/各项风险资本准备之和≥100%\n净资本/净资产≥40%\n净资本/负债≥8%\n净资产/负债≥20%'},
+  {s:1, ch:'第2章', title:'证券公司从业人员管理', tags:['freq'], body:'禁止行为：1.代客操作 2.承诺收益 3.利益输送 4.信息泄露\n从业资格：通过证券从业考试+注册\n执业证书：3年有效期，需继续教育\n变动：5日内报告'},
+  {s:1, ch:'第2章', title:'投资者适当性管理', tags:['freq','mix'], body:'普通投资者 vs 专业投资者\n适当性匹配：风险等级匹配\n普通投资者特别保护：举证责任倒置\n产品风险等级：R1~R5\n投资者分类：C1~C5(保守型~进取型)'},
+  {s:1, ch:'第2章', title:'证券公司反洗钱义务', tags:['freq'], body:'客户身份识别、大额和可疑交易报告、客户资料保存\n大额交易：单笔5万元以上现金\n可疑交易：7日内报告\n客户资料保存：至少5年'},
+  {s:1, ch:'第2章', title:'证券公司内部控制', tags:['mix','freq'], body:'基本要求：健全、合理、制衡、独立\n重点：经纪业务、自营业务、资产管理业务、投行业务\n原则：全面性、审慎性、有效性、及时性'},
+  {s:1, ch:'第2章', title:'证券公司合规管理', tags:['freq'], body:'合规总监：高级管理人员，直接向董事会报告\n合规部门：独立于其他业务部门\n合规经费：纳入公司预算\n合规责任：全员合规，董监高负主要责任'},
+  {s:1, ch:'第2章', title:'证券公司信息隔离墙', tags:['mix'], body:'目的：防止利益冲突和内幕信息传递\n要求：物理隔离+制度隔离+人员隔离\n观察名单/限制名单：防范内幕信息传递\n静默期：IPO/重大重组期间'},
+  {s:1, ch:'第2章', title:'客户资产安全', tags:['freq','num'], body:'客户交易结算资金第三方存管\n客户证券不得挪用\n客户资产与公司自有资产分离\n存管银行：每日对账，确保分账管理'},
+
+  // --- 第3章 证券公司业务规范 (10条) ---
+  {s:1, ch:'第3章', title:'证券经纪业务规则', tags:['freq'], body:'1.客户实名制 2.资金第三方存管 3.禁止全权委托 4.禁止承诺收益\n佣金：不超过成交金额的3‰\n开户：现场或非现场(视频认证)'},
+  {s:1, ch:'第3章', title:'融资融券业务规则', tags:['num','freq'], body:'融资：借入资金买入证券\n融券：借入证券卖出\n保证金比例：融资≥100%，融券≥50%\n维持担保比例≥130%(低于则追加保证金)\n维持担保比例≤150%为安全线'},
+  {s:1, ch:'第3章', title:'证券投资咨询业务', tags:['mix'], body:'投资顾问 vs 证券分析师\n投资顾问：面向客户，提供建议\n分析师：面向市场，发布研究报告\n禁止：利用研究报告荐股谋利\n资格：通过专项考试+注册'},
+  {s:1, ch:'第3章', title:'证券承销业务', tags:['num','mix'], body:'代销：未售出证券退还发行人(不承担风险)\n包销：未售出证券由承销商购入(承担风险)\n承销团：金额≥5000万元应组成承销团\n期限：最长不超过90日\n代销失败：≥70%方为成功'},
+  {s:1, ch:'第3章', title:'并购重组财务顾问', tags:['freq'], body:'重大资产重组标准：\n购买/出售资产≥50%总资产\n或≥50%净资产\n或≥50%营业收入\n需聘请独立财务顾问\n内幕信息知情人登记制度'},
+  {s:1, ch:'第3章', title:'资产管理业务', tags:['mix','freq'], body:'定向资产管理：单一客户，1对1\n集合资产管理：多个客户，1对多\n专项资产管理：特定目的\n投资者门槛：合格投资者\n禁止：保本保收益、资金池、期限错配'},
+  {s:1, ch:'第3章', title:'证券公司IB业务', tags:['mix'], body:'介绍经纪商(Introducing Broker)\n功能：协助开户、传递指令\n不得：代客交易、结算、保证金管理\n证券公司须与期货公司签协议\n佣金分成模式'},
+  {s:1, ch:'第3章', title:'证券自营业务', tags:['freq','num'], body:'自有资金买卖证券\n风险指标：自营权益类证券/净资本≤100%\n自营固定收益类证券/净资本≤500%\n禁止：内幕交易、操纵市场、欺诈客户'},
+  {s:1, ch:'第3章', title:'保荐业务', tags:['freq','num'], body:'保荐机构：2名保荐代表人\n保荐期间：持续督导(上市后1~2个完整会计年度)\n保荐责任：尽职推荐、持续督导\n违规：暂停/撤销保荐资格'},
+  {s:1, ch:'第3章', title:'股票质押回购', tags:['num','mix'], body:'融入方：持股5%以上股东需披露\n质押率：≤60%(主板)/≤50%(创业板)\n履约保障比例：≤130%需补充质押\n期限：不超过3年'},
+
+  // --- 第4章 证券市场典型违法违规行为 (8条) ---
+  {s:1, ch:'第4章', title:'内幕信息知情人范围', tags:['mix','freq'], body:'1.发行人董监高 2.持股5%以上股东 3.发行人控制的公司人员 4.中介机构人员 5.证监会规定的其他人\n配偶/父母/子女也视为知情人'},
+  {s:1, ch:'第4章', title:'内幕信息范围', tags:['freq'], body:'1.重大投资行为 2.重大资产购置/处置 3.订立重要合同 4.重大债务 5.重大亏损 6.董事长/1/3以上董事变动 7.生产经营外部条件重大变化\n核心特征：未公开+对价格有重大影响'},
+  {s:1, ch:'第4章', title:'利用未公开信息交易(老鼠仓)', tags:['freq'], body:'主体：基金管理人/托管人/从业人员\n行为：利用职务便利获取未公开信息进行交易\n处罚：违法所得1~5倍罚款\n刑事：处5年以下有期徒刑或拘役\n与内幕交易区别：信息来源不同'},
+  {s:1, ch:'第4章', title:'非法证券活动类型', tags:['mix'], body:'1.非法发行证券 2.非法经营证券业务 3.非法设立证券机构\n特征：未经批准、承诺高额回报、隐蔽性强\n举报途径：12386\n以股权投资名义非法集资也属此类'},
+  {s:1, ch:'第4章', title:'欺诈发行法律责任', tags:['num'], body:'行政：非法所募资金1%~5%罚款(公司)\n刑事：处5年以下有期徒刑或拘役，并处或单处罚金\n民事：投资者可提起赔偿诉讼\n注册制下处罚更严厉'},
+  {s:1, ch:'第4章', title:'背信运用受托财产罪', tags:['mix'], body:'主体：商业银行/证券交易所/期货交易所/证券公司/基金管理公司\n行为：擅自运用客户资金或其他委托信托财产\n处罚：3万~30万(单位)，责任人3年以下'},
+  {s:1, ch:'第4章', title:'违规披露/不披露重要信息罪', tags:['num'], body:'行为：信息披露义务人提供虚假或隐瞒重要事实的财务报告\n处罚：对公司20万~100万罚款\n直接责任人：3年以下有期徒刑/拘役\n并处或单处2万~20万罚金'},
+  {s:1, ch:'第4章', title:'编造传播虚假信息罪', tags:['mix'], body:'行为：编造/传播影响证券交易的虚假信息\n主体：任何人\n处罚：3年以下有期徒刑/拘役\n并处或单处1万~10万罚金\n媒体也适用'},
+
+  // --- 第5章 行业文化、职业道德与行为规范 (8条) ---
+  {s:1, ch:'第5章', title:'证券从业禁止行为', tags:['freq','mnemo'], mnemo:'💡 承利泄兼职 → 承诺收益、利益输送、泄露信息、违规兼职', body:'1.不得承诺收益 2.不得利益输送 3.不得泄露信息 4.不得违规兼职 5.不得代客操作 6.不得收受不正当利益'},
+  {s:1, ch:'第5章', title:'从业人员廉洁从业', tags:['freq'], body:'不得：1.谋取不正当利益 2.利益输送 3.商业贿赂 4.利用内幕信息\n违规后果：警告、罚款、暂停/撤销从业资格、市场禁入\n廉洁从业纳入考核体系'},
+  {s:1, ch:'第5章', title:'证券行业诚信管理', tags:['freq'], body:'诚信档案：中国证券业协会建立\n记入情形：行政处罚、刑事处罚、自律处分\n影响：资格注册、任职审查、业务许可\n查询：协会网站公开查询'},
+  {s:1, ch:'第5章', title:'市场禁入制度', tags:['num'], body:'措施：3~5年或终身不得从事证券业务\n适用对象：违法行为直接责任人\n决定机关：中国证监会\n被禁入人：不得担任上市公司董监高'},
+  {s:1, ch:'第5章', title:'投资者保护制度', tags:['freq'], body:'投资者分类：普通投资者/专业投资者\n普通投资者特别保护：举证责任倒置\n纠纷解决：调解优先、小额速裁\n代表人诉讼：投资者保护机构可代为诉讼'},
+  {s:1, ch:'第5章', title:'证券纠纷调解', tags:['num'], body:'调解机构：中国证券业协会/中证资本市场法律服务中心\n小额纠纷：金额≤30万元，调解协议可申请司法确认\n时限：30个工作日内完成调解\n调解免费、自愿、保密'},
+  {s:1, ch:'第5章', title:'信息隔离墙制度', tags:['mix','freq'], body:'目的：防止利益冲突和内幕信息传递\n要求：物理隔离+制度隔离+人员隔离\n隔离墙：研究报告发布前不得泄露\n静默期：IPO/重大重组期间\n跨墙：需审批+监控'},
+  {s:1, ch:'第5章', title:'从业人员职业道德', tags:['freq'], body:'核心：守法合规、诚实信用、勤勉尽责\n忠实义务：以投资者利益为先\n保密义务：客户信息、内幕信息\n避免利益冲突：主动申报、回避\n持续学习：年度学时要求'}
+];
+
+// 题目数据
+const questionBanks = [
+  // ===== 金融市场基础知识（8章） =====
+  [
+    // 第1章 金融市场体系
+    [
+      {type:'单选题', q:'证券市场的资本配置功能是指通过（  ）引导资本流动来实现。', opts:['行政指令','股票发行数量','证券价格信号','投资者意愿'], ans:2},
+      {type:'单选题', q:'金融市场的最基本功能是（  ）。', opts:['价格发现','资金融通','风险管理','提供流动性'], ans:1},
+      {type:'单选题', q:'下列属于直接融资工具的是（  ）。', opts:['银行贷款','股票','保险单','信托计划'], ans:1},
+      {type:'单选题', q:'货币市场是指期限在（  ）以内的金融市场。', opts:['3个月','6个月','1年','2年'], ans:2},
+      {type:'单选题', q:'资本市场与货币市场的划分依据是（  ）。', opts:['交易对象','交易期限','交易方式','交割方式'], ans:1},
+      {type:'单选题', q:'金融市场微观经济功能不包括（  ）。', opts:['价格发现','风险管理','提供流动性','财富分配'], ans:3},
+      {type:'单选题', q:'证券发行市场又称为（  ）。', opts:['二级市场','一级市场','第三市场','场外市场'], ans:1},
+      {type:'单选题', q:'金融市场的交易对象是（  ）。', opts:['实物商品','货币资金','劳动力','技术'], ans:1},
+    ],
+    // 第2章 中国的金融体系
+    [
+      {type:'单选题', q:'下列不属于货币政策工具的是（  ）。', opts:['法定存款准备金率','公开市场操作','再贴现政策','税率'], ans:3},
+      {type:'单选题', q:'中央银行作为"发行的银行"是指（  ）。', opts:['发行股票','发行货币','发行债券','发行基金'], ans:1},
+      {type:'单选题', q:'上海银行间同业拆放利率的英文缩写是（  ）。', opts:['LIBOR','Shibor','HIBOR','SIBOR'], ans:1},
+      {type:'单选题', q:'我国三大政策性银行不包括（  ）。', opts:['国家开发银行','中国进出口银行','中国农业发展银行','中国工商银行'], ans:3},
+      {type:'单选题', q:'我国金融监管体制中，"一委一行两会"的"一委"是指（  ）。', opts:['发改委','国务院金融稳定发展委员会','银保监会','证监会'], ans:1},
+      {type:'单选题', q:'中国人民银行的主要职责不包括（  ）。', opts:['制定货币政策','防范金融风险','审批上市公司','管理人民币流通'], ans:2},
+      {type:'单选题', q:'商业银行最主要的资产业务是（  ）。', opts:['存款业务','贷款业务','结算业务','代理业务'], ans:1},
+      {type:'单选题', q:'LPR是指（  ）。', opts:['贷款基础利率','存款利率','国债利率','再贴现率'], ans:0},
+    ],
+    // 第3章 证券市场主体
+    [
+      {type:'单选题', q:'证券交易所的性质是（  ）。', opts:['营利性企业','事业单位','自律性法人','政府机构'], ans:2},
+      {type:'单选题', q:'证券公司经营经纪业务的注册资本最低限额为（  ）亿元。', opts:['0.5','1','2','5'], ans:1},
+      {type:'单选题', q:'证券登记结算机构属于（  ）。', opts:['证券发行人','证券中介机构','自律性组织','证券监管机构'], ans:1},
+      {type:'单选题', q:'中国证券业协会的性质是（  ）。', opts:['政府机构','自律性组织','营利性企业','事业单位'], ans:1},
+      {type:'单选题', q:'证券投资者保护基金的来源不包括（  ）。', opts:['交易经手费','证券公司缴纳','发行股票募集','利息收入'], ans:2},
+      {type:'单选题', q:'合格境外机构投资者(QFII)制度的作用是（  ）。', opts:['限制外资流入','引导外资有序进入资本市场','增加国内投资者','减少市场波动'], ans:1},
+      {type:'单选题', q:'证券交易所的组织形式不包括（  ）。', opts:['公司制','会员制','合伙制','以上都不包括'], ans:2},
+      {type:'单选题', q:'沪深交易所对证券交易实行（  ）监管。', opts:['实时','事后','定期','不进行'], ans:0},
+    ],
+    // 第4章 股票
+    [
+      {type:'单选题', q:'股票最根本的特征是（  ）。', opts:['流动性','收益性','风险性','永久性'], ans:1},
+      {type:'单选题', q:'优先股与普通股最主要的区别是（  ）。', opts:['发行对象不同','股利分配和剩余财产分配顺序不同','面值不同','发行价格不同'], ans:1},
+      {type:'单选题', q:'B股是指（  ）。', opts:['人民币普通股','人民币特种股','外资股','H股'], ans:1},
+      {type:'单选题', q:'科创板于（  ）年正式开板。', opts:['2018','2019','2020','2021'], ans:1},
+      {type:'单选题', q:'IPO网上申购沪市最低为（  ）股的整数倍。', opts:['500','1000','1500','2000'], ans:1},
+      {type:'单选题', q:'除权的英文缩写是（  ）。', opts:['XD','XR','DR','EX'], ans:1},
+      {type:'单选题', q:'沪深300指数采用（  ）方法计算。', opts:['算术平均','派许加权','几何平均','中位数'], ans:1},
+      {type:'单选题', q:'股票的内在价值取决于（  ）。', opts:['市场价格','未来收益的现值','发行价格','账面价值'], ans:1},
+    ],
+    // 第5章 债券
+    [
+      {type:'单选题', q:'根据《证券法》，股份有限公司公开发行公司债券的净资产不低于人民币（  ）万元。', opts:['1000','2000','3000','6000'], ans:2},
+      {type:'单选题', q:'中期国债的期限为（  ）。', opts:['1年以内','1~10年','10~20年','20年以上'], ans:1},
+      {type:'单选题', q:'信用评级BBB级是（  ）的分界线。', opts:['投资级与投机级','高级与中上级','中上级与中级','中级与投机级'], ans:0},
+      {type:'单选题', q:'可转换公司债券的转股价格应不低于公告前（  ）日均价。', opts:['10','15','20','30'], ans:2},
+      {type:'单选题', q:'国债的发行主体是（  ）。', opts:['中央政府','地方政府','金融机构','企业'], ans:0},
+      {type:'单选题', q:'债券的到期收益率是指（  ）。', opts:['票面利率','持有到期的实际年化收益率','当期收益率','资本利得率'], ans:1},
+      {type:'单选题', q:'零息债券的特点是（  ）。', opts:['定期付息','到期一次还本付息','不付息只还本','浮动利率'], ans:1},
+      {type:'单选题', q:'债券价格与市场利率的关系是（  ）。', opts:['正相关','负相关','无关','随机'], ans:1},
+    ],
+    // 第6章 证券投资基金
+    [
+      {type:'单选题', q:'基金份额净值的计算公式是（  ）。', opts:['总资产÷总份额','(总资产-总负债)÷总份额','总资产÷持有人数','(总资产-总负债)÷持有人数'], ans:1},
+      {type:'单选题', q:'开放式基金与封闭式基金最本质的区别是（  ）。', opts:['期限不同','规模是否固定','交易方式不同','价格确定方式不同'], ans:1},
+      {type:'单选题', q:'ETF的申购赎回采用（  ）。', opts:['现金','一篮子股票','债券','基金份额'], ans:1},
+      {type:'单选题', q:'基金年报披露的时间要求是年度结束后（  ）日内。', opts:['30','60','90','120'], ans:2},
+      {type:'单选题', q:'基金托管人由（  ）担任。', opts:['证券公司','商业银行','基金公司','信托公司'], ans:1},
+      {type:'单选题', q:'LOF基金与ETF的主要区别是（  ）。', opts:['投资标的不同','申购赎回方式不同','基金规模不同','管理费率不同'], ans:1},
+      {type:'单选题', q:'基金管理人职责终止的情形不包括（  ）。', opts:['被依法取消基金管理资格','被基金份额持有人大会解任','依法解散','基金经理离职'], ans:3},
+      {type:'单选题', q:'基金募集期限自基金份额发售之日起不得超过（  ）个月。', opts:['1','3','6','12'], ans:1},
+    ],
+    // 第7章 金融衍生工具
+    [
+      {type:'单选题', q:'金融衍生工具最显著的特征是（  ）。', opts:['跨期性','杠杆性','联动性','高风险性'], ans:1},
+      {type:'单选题', q:'期权买方与卖方的权利义务关系是（  ）。', opts:['对等的','买方有权利无义务，卖方有义务无权利','买方有义务，卖方有权利','双方都无义务'], ans:1},
+      {type:'单选题', q:'金融期货与金融远期的最关键区别是（  ）。', opts:['交易场所不同','标准化程度不同','结算方式不同','违约风险不同'], ans:1},
+      {type:'单选题', q:'欧式权证的行权方式是（  ）。', opts:['到期日前任一天','只能在到期日','指定期间','到期日后'], ans:1},
+      {type:'单选题', q:'金融互换交易中最基本的形式是（  ）。', opts:['货币互换','利率互换','股权互换','商品互换'], ans:1},
+      {type:'单选题', q:'可转换债券实质上是（  ）。', opts:['普通债券','附有看涨期权的债券','附有看跌期权的债券','股权凭证'], ans:1},
+      {type:'单选题', q:'期货交易的每日无负债结算制度又称（  ）。', opts:['保证金制度','逐日盯市制度','涨跌停板制度','持仓限额制度'], ans:1},
+      {type:'单选题', q:'金融期权交易中，看涨期权的买方预期标的资产价格将（  ）。', opts:['上涨','下跌','不变','大幅波动'], ans:0},
+    ],
+    // 第8章 金融风险管理
+    [
+      {type:'单选题', q:'VaR是指在给定置信水平和时间区间下的（  ）。', opts:['最小收益','最大预期损失','平均损失','预期收益'], ans:1},
+      {type:'单选题', q:'系统性风险的特征是（  ）。', opts:['可分散','仅影响个别资产','影响所有资产','可通过组合投资消除'], ans:2},
+      {type:'单选题', q:'巴塞尔协议的三大支柱不包括（  ）。', opts:['最低资本要求','监管审查','市场纪律','风险管理'], ans:3},
+      {type:'单选题', q:'资本充足率最低要求为（  ）。', opts:['4%','6%','8%','10%'], ans:2},
+      {type:'单选题', q:'不属于金融风险的是（  ）。', opts:['市场风险','信用风险','操作风险','经营风险'], ans:3},
+      {type:'单选题', q:'压力测试的目的是评估（  ）。', opts:['日常运营效率','极端不利情况下的风险承受能力','投资收益率','客户满意度'], ans:1},
+      {type:'单选题', q:'信用风险是指（  ）。', opts:['利率变动导致损失','交易对手违约导致损失','系统故障导致损失','市场波动导致损失'], ans:1},
+      {type:'单选题', q:'风险对冲的核心思想是（  ）。', opts:['消除所有风险','通过相关性降低整体风险','提高收益','增加投资品种'], ans:1},
+    ]
+  ],
+  // ===== 证券法律法规（5章） =====
+  [
+    // 第1章 证券市场基本法律法规
+    [
+      {type:'单选题', q:'《证券法》不适用于下列哪项（  ）。', opts:['股票发行','公司债券交易','保险产品','证券投资基金'], ans:2},
+      {type:'单选题', q:'全面注册制自（  ）起实施。', opts:['2019年','2021年','2023年','2024年'], ans:2},
+      {type:'单选题', q:'注册制的核心是（  ）。', opts:['实质审核','以信息披露为核心','审批制','核准制'], ans:1},
+      {type:'单选题', q:'短线交易是指（  ）内买卖证券收益归公司所有。', opts:['3个月','6个月','12个月','24个月'], ans:1},
+      {type:'单选题', q:'IPO控股股东的锁定期为（  ）个月。', opts:['6','12','24','36'], ans:3},
+      {type:'单选题', q:'信息披露的基本要求不包括（  ）。', opts:['真实','准确','完整','保密'], ans:3},
+      {type:'单选题', q:'《公司法》规定的公司类型不包括（  ）。', opts:['有限责任公司','股份有限公司','合伙企业','国有独资公司'], ans:2},
+      {type:'单选题', q:'上市公司股东大会的普通决议需经（  ）通过。', opts:['出席会议股东所持表决权过半数','全体股东过半数','出席会议股东2/3以上','全体股东2/3以上'], ans:0},
+    ],
+    // 第2章 证券经营机构管理规范
+    [
+      {type:'单选题', q:'证券公司独立董事不少于董事会的（  ）。', opts:['1/5','1/4','1/3','1/2'], ans:1},
+      {type:'单选题', q:'证券公司经纪业务净资本不低于（  ）亿元。', opts:['1','2','3','5'], ans:1},
+      {type:'单选题', q:'证券公司承销业务净资本不低于（  ）亿元。', opts:['1','2','3','5'], ans:3},
+      {type:'单选题', q:'净资本/负债的比例不得低于（  ）。', opts:['4%','8%','10%','20%'], ans:1},
+      {type:'单选题', q:'信息隔离墙制度的主要目的是（  ）。', opts:['提高效率','防止利益冲突','节约成本','统一管理'], ans:1},
+      {type:'单选题', q:'证券公司合规管理的基本制度由（  ）制定。', opts:['股东会','董事会','监事会','总经理'], ans:1},
+      {type:'单选题', q:'证券公司风险控制指标不符合规定的，证监会可采取的措施不包括（  ）。', opts:['限制业务活动','责令暂停部分业务','罚款','限制分配红利'], ans:2},
+      {type:'单选题', q:'证券公司分类评价制度中，A类公司表示（  ）。', opts:['风险管理能力差','风险管理能力一般','风险管理能力较好','风险管理能力高'], ans:2},
+    ],
+    // 第3章 证券公司业务规范
+    [
+      {type:'单选题', q:'证券经纪业务佣金不超过成交金额的（  ）。', opts:['1‰','2‰','3‰','5‰'], ans:2},
+      {type:'单选题', q:'融资融券维持担保比例低于（  ）%需追加保证金。', opts:['110','120','130','150'], ans:2},
+      {type:'单选题', q:'证券承销金额达到（  ）万元应组成承销团。', opts:['2000','3000','5000','10000'], ans:2},
+      {type:'单选题', q:'证券承销期限最长不超过（  ）日。', opts:['30','60','90','180'], ans:2},
+      {type:'单选题', q:'产品风险等级分为（  ）级。', opts:['3','4','5','6'], ans:2},
+      {type:'单选题', q:'反洗钱大额交易报告标准为单笔（  ）万元以上现金。', opts:['1','3','5','10'], ans:2},
+      {type:'单选题', q:'重大资产重组标准为购买/出售资产占总资产（  ）以上。', opts:['30%','40%','50%','60%'], ans:2},
+      {type:'单选题', q:'基金托管人净资产不低于（  ）亿元。', opts:['10','20','50','80'], ans:3},
+    ],
+    // 第4章 证券市场典型违法违规行为及法律责任
+    [
+      {type:'单选题', q:'内幕交易罚款为违法所得的（  ）倍。', opts:['1~3','1~5','2~5','3~10'], ans:1},
+      {type:'单选题', q:'操纵市场的罚款金额为（  ）万元。', opts:['10~100','30~300','50~500','100~1000'], ans:1},
+      {type:'单选题', q:'虚假陈述对公司罚款最高可达（  ）万元。', opts:['100','300','500','1000'], ans:3},
+      {type:'单选题', q:'持股（  ）以上股东属于内幕信息知情人。', opts:['3%','5%','10%','20%'], ans:1},
+      {type:'单选题', q:'利用未公开信息交易俗称（  ）。', opts:['内幕交易','老鼠仓','操纵市场','虚假陈述'], ans:1},
+      {type:'单选题', q:'欺诈发行刑事处罚最高为（  ）年有期徒刑。', opts:['3','5','7','10'], ans:1},
+      {type:'单选题', q:'市场禁入措施期限为（  ）。', opts:['1~3年','3~5年或终身','5~10年','10年以上'], ans:1},
+      {type:'单选题', q:'老鼠仓行为属于（  ）。', opts:['内幕交易','利用未公开信息交易','操纵市场','欺诈发行'], ans:1},
+    ],
+    // 第5章 行业文化、职业道德与从业人员行为规范
+    [
+      {type:'单选题', q:'从业人员执业证书有效期为（  ）年。', opts:['1','2','3','5'], ans:2},
+      {type:'单选题', q:'证券从业禁止行为不包括（  ）。', opts:['承诺收益','利益输送','合规培训','代客操作'], ans:2},
+      {type:'单选题', q:'投资者保护机构可代为提起（  ）。', opts:['行政诉讼','代表人诉讼','仲裁','调解'], ans:1},
+      {type:'单选题', q:'监事会中职工代表比例不低于（  ）。', opts:['1/4','1/3','1/2','2/3'], ans:1},
+      {type:'单选题', q:'普通投资者的特别保护措施是（  ）。', opts:['减免费用','举证责任倒置','优先交易','免于审核'], ans:1},
+      {type:'单选题', q:'基金份额持有人大会需代表（  ）以上份额方可召开。', opts:['1/3','40%','50%','2/3'], ans:2},
+      {type:'单选题', q:'期货交易制度不包括（  ）。', opts:['保证金制度','涨跌停板制度','审批制度','强行平仓制度'], ans:2},
+      {type:'单选题', q:'小额纠纷调解金额标准为（  ）万元以下。', opts:['10','20','30','50'], ans:2},
+    ]
+  ]
+];
+
+// ===== STATE =====
+let currentSubject = 0;
+let currentChapter = -1; // -1表示全部章节
+let currentFilter = 'all';
+let searchTerm = '';
+let currentQuestionIdx = 0;
+
+// ===== FUNCTIONS =====
+const tabMap = { home:'screen-home', bank:'screen-bank', practice:'screen-practice', errors:'screen-errors', knowledge:'screen-knowledge', profile:'screen-profile', exam:'screen-exam', analysis:'screen-analysis' };
+const tabBarTabs = ['home','bank','knowledge','profile'];
+
+function switchTab(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById(tabMap[name]);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.tab-item').forEach((t, i) => {
+    t.classList.toggle('active', tabBarTabs[i] === name);
+    t.querySelectorAll('svg path, svg circle').forEach(el => {
+      el.setAttribute('stroke', tabBarTabs[i] === name ? '#7C3AED' : '#94A3B8');
+    });
+  });
+  if (name === 'bank') renderChapters();
+  if (name === 'knowledge') renderKnowledge();
+  if (name === 'practice') renderPractice();
+  if (name === 'exam') renderExam();
+}
+
+function switchSubject(idx) {
+  currentSubject = idx;
+  currentChapter = -1;
+  knowledgeChapter = -1;
+  currentQuestionIdx = 0;
+  document.querySelectorAll('.subject-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i % 2 === idx);
+  });
+  renderChapters();
+  renderKnowledgeChapters();
+  renderKnowledge();
+  renderPractice();
+}
+
+function switchExamSubject(idx, el) {
+  currentSubject = idx;
+  currentQuestionIdx = 0;
+  selectedAnswer = -1;
+  // 更新模拟考场内的科目按钮
+  const parent = el.closest('.subject-switch');
+  parent.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  // 同步首页和题库页面的科目
+  document.querySelectorAll('.subject-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i % 2 === idx);
+  });
+  // 重新生成当前科目的考试题目
+  currentExamQuestions = generateExamQuestions(currentExamTitle || subjects[idx].name, idx, currentExamCount);
+  examAnswers = new Array(currentExamQuestions.length).fill(-1);
+  totalSeconds = 120 * 60;
+  renderExam();
+  renderChapters();
+  renderKnowledge();
+  renderPractice();
+}
+
+function renderChapters() {
+  const subject = subjects[currentSubject];
+  const list = document.getElementById('chapter-list');
+  const countEl = document.getElementById('chapter-count');
+  if (!list) return;
+  const chQuestions = questionBanks[currentSubject] || questionBanks[0];
+  const total = subject.chapters.reduce((a, c, i) => a + (chQuestions[i] ? chQuestions[i].length : c.count), 0);
+  if (countEl) countEl.textContent = `共${subject.chapters.length}章 / ${total}题`;
+  list.innerHTML = subject.chapters.map((ch, i) => {
+    const qCount = chQuestions[i] ? chQuestions[i].length : ch.count;
+    return `<div class="chapter-item" onclick="startChapterPractice(${i})">
+      <div class="ch-top"><div class="ch-name">${ch.name}</div><div class="ch-badge todo">未开始</div></div>
+      <div class="ch-progress"><div class="ch-progress-fill" style="width:0%"></div></div>
+      <div class="ch-info"><span>共${qCount}题</span></div>
+    </div>`}).join('');
+  // Exam papers - 按当前科目显示
+  const examList = document.getElementById('exam-list');
+  const papers = examPapers[currentSubject] || [];
+  const totalCount = papers.length;
+  const sectionCount = document.querySelector('#screen-bank .section-title:last-of-type .kc-count');
+  if (examList) examList.innerHTML = papers.map(p => {
+    const tagHtml = p.tag ? `<span style="background:var(--red);color:#fff;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:600;margin-left:6px">${p.tag}</span>` : '';
+    const sourceIcon = p.source === '233网校' ? '🏫' : p.source === '乐橙题库' ? '🍊' : '📄';
+    const isNew = p.tag ? 'new-tag' : '';
+    return `<div class="past-paper ${isNew}" onclick="startExamPractice('${p.title}',${p.count})">
+      <div class="pp-top"><div class="pp-title">${sourceIcon} ${p.title}${tagHtml}</div><div class="pp-arrow">›</div></div>
+      <div class="pp-info">${p.count}题 · 限时${p.time}分钟 · ${p.source} · 未作答</div>
+    </div>`;
+  }).join('');
+  // 更新标题中的套数
+  const examSectionTitle = document.querySelector('#screen-bank .exam-section-title');
+  if (examSectionTitle) examSectionTitle.querySelector('.kc-count').textContent = `共${totalCount}套`;
+}
+
+function startChapterPractice(chapterIdx) {
+  currentChapter = chapterIdx;
+  currentQuestionIdx = 0;
+  selectedAnswer = -1;
+  switchTab('practice');
+}
+
+function startExamPractice(title, count) {
+  currentQuestionIdx = 0;
+  selectedAnswer = -1;
+  currentExamTitle = title || subjects[currentSubject].name + '模拟测试';
+  currentExamCount = count || 100;
+  totalSeconds = 120 * 60;
+  // 为这套试卷生成独立题目（基于标题做种子随机）
+  currentExamQuestions = generateExamQuestions(currentExamTitle, currentSubject, currentExamCount);
+  // 重置答题记录
+  examAnswers = new Array(currentExamQuestions.length).fill(-1);
+  switchTab('exam');
+}
+
+let currentExamTitle = '';
+let currentExamCount = 100;
+let currentExamQuestions = [];
+let examAnswers = [];
+
+// 基于试卷标题生成种子，从题库中抽取不同题目组合
+function generateExamQuestions(title, subjectIdx, count) {
+  // 合并该科目所有章节的题目
+  const allQuestions = (questionBanks[subjectIdx] || questionBanks[0]).flat();
+  // 根据标题生成一个简单hash作为种子
+  let seed = 0;
+  for (let i = 0; i < title.length; i++) seed = (seed * 31 + title.charCodeAt(i)) & 0x7FFFFFFF;
+  // 用种子做简单洗牌
+  const shuffled = [...allQuestions];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    seed = (seed * 1103515245 + 12345) & 0x7FFFFFFF;
+    const j = seed % (i + 1);
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  // 如果题目不够，循环填充
+  const result = [];
+  for (let i = 0; i < count; i++) {
+    result.push(shuffled[i % shuffled.length]);
+  }
+  return result;
+}
+
+function getCurrentQuestions() {
+  const subjectQuestions = questionBanks[currentSubject] || questionBanks[0];
+  if (currentChapter >= 0 && currentChapter < subjectQuestions.length) {
+    return subjectQuestions[currentChapter];
+  }
+  // 如果没选章节，返回该科目所有题目合并
+  return subjectQuestions.flat();
+}
+
+function renderPractice() {
+  const questions = getCurrentQuestions();
+  if (!questions.length) return;
+  const idx = currentQuestionIdx % questions.length;
+  const q = questions[idx];
+  const total = questions.length;
+  const progressEl = document.getElementById('practice-progress');
+  const barEl = document.getElementById('practice-progress-bar');
+  const cardEl = document.getElementById('practice-question-card');
+  const chapterLabel = document.getElementById('practice-chapter-label');
+  if (progressEl) progressEl.textContent = `第 ${idx+1}/${total} 题`;
+  if (barEl) barEl.style.width = `${Math.max(1, ((idx+1)/total)*100)}%`;
+  // 显示当前章节名称
+  if (chapterLabel) {
+    if (currentChapter >= 0) {
+      const ch = subjects[currentSubject].chapters[currentChapter];
+      chapterLabel.textContent = ch ? ch.name : '';
+      chapterLabel.style.display = '';
+    } else {
+      chapterLabel.textContent = subjects[currentSubject].name;
+      chapterLabel.style.display = '';
+    }
+  }
+  // 重置答题状态
+  practiceAnswered = false;
+  selectedAnswer = -1;
+  const letters = ['A','B','C','D'];
+  if (cardEl) cardEl.innerHTML = `
+    <div class="q-badge">${q.type}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="options">
+      ${q.opts.map((o, i) => `<div class="option-btn" onclick="selectOption(this,${i})"><div class="circle">${letters[i]}</div><div class="opt-text">${o}</div></div>`).join('')}
+    </div>`;
+}
+
+let selectedAnswer = -1;
+let practiceAnswered = false;
+
+function selectOption(el, idx) {
+  if (practiceAnswered) return; // 已经答过不能再选
+  selectedAnswer = idx;
+  practiceAnswered = true;
+  const questions = getCurrentQuestions();
+  const q = questions[currentQuestionIdx % questions.length];
+  const isCorrect = idx === q.ans;
+  const letters = ['A','B','C','D'];
+  
+  // 高亮所有选项：正确答案绿色，错误选择红色
+  const parent = el.closest('.options');
+  const btns = parent.querySelectorAll('.option-btn');
+  btns.forEach((btn, i) => {
+    btn.classList.remove('selected');
+    if (i === q.ans) {
+      btn.classList.add('correct');
+    } else if (i === idx && !isCorrect) {
+      btn.classList.add('wrong');
+    } else {
+      btn.style.opacity = '0.5';
+    }
+  });
+  
+  // 在选项下方插入对错提示
+  const cardEl = document.getElementById('practice-question-card');
+  if (cardEl) {
+    const existing = cardEl.querySelector('.answer-feedback');
+    if (existing) existing.remove();
+    const feedback = document.createElement('div');
+    feedback.className = 'answer-feedback';
+    if (isCorrect) {
+      feedback.innerHTML = `<div style="background:#ECFDF5;border:1px solid #A7F3D0;border-radius:12px;padding:12px 16px;margin-top:12px;display:flex;align-items:center;gap:8px">
+        <span style="font-size:20px">✅</span>
+        <div><div style="font-size:14px;font-weight:600;color:#059669">回答正确！</div>
+        <div style="font-size:12px;color:#065F46;margin-top:2px">正确答案：${letters[q.ans]}. ${q.opts[q.ans]}</div></div>
+        <div style="margin-left:auto"><div class="nav-btn" style="font-size:12px;padding:6px 12px;background:var(--primary);color:#fff;border-radius:8px;cursor:pointer" onclick="renderAnalysis();switchTab('analysis')">查看解析</div></div>
+      </div>`;
+    } else {
+      feedback.innerHTML = `<div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:12px 16px;margin-top:12px;display:flex;align-items:center;gap:8px">
+        <span style="font-size:20px">❌</span>
+        <div><div style="font-size:14px;font-weight:600;color:#DC2626">回答错误</div>
+        <div style="font-size:12px;color:#991B1B;margin-top:2px">你选了 ${letters[idx]}. ${q.opts[idx]}，正确答案：${letters[q.ans]}. ${q.opts[q.ans]}</div></div>
+        <div style="margin-left:auto"><div class="nav-btn" style="font-size:12px;padding:6px 12px;background:var(--primary);color:#fff;border-radius:8px;cursor:pointer" onclick="renderAnalysis();switchTab('analysis')">查看解析</div></div>
+      </div>`;
+    }
+    cardEl.appendChild(feedback);
+  }
+}
+
+function nextQuestion() {
+  const questions = getCurrentQuestions();
+  // 如果已选择答案但还没看过反馈，直接进入下一题
+  currentQuestionIdx = (currentQuestionIdx + 1) % questions.length;
+  selectedAnswer = -1;
+  practiceAnswered = false;
+  renderPractice();
+}
+
+function prevQuestion() {
+  const questions = getCurrentQuestions();
+  currentQuestionIdx = (currentQuestionIdx - 1 + questions.length) % questions.length;
+  selectedAnswer = -1;
+  practiceAnswered = false;
+  renderPractice();
+}
+
+function goNextFromAnalysis() {
+  const questions = getCurrentQuestions();
+  currentQuestionIdx = (currentQuestionIdx + 1) % questions.length;
+  selectedAnswer = -1;
+  practiceAnswered = false;
+  switchTab('practice');
+  renderPractice();
+}
+
+function goPrevFromAnalysis() {
+  const questions = getCurrentQuestions();
+  currentQuestionIdx = (currentQuestionIdx - 1 + questions.length) % questions.length;
+  selectedAnswer = -1;
+  practiceAnswered = false;
+  switchTab('practice');
+  renderPractice();
+}
+
+function renderAnalysis() {
+  const questions = getCurrentQuestions();
+  const idx = currentQuestionIdx % questions.length;
+  const q = questions[idx];
+  const letters = ['A','B','C','D'];
+  const isCorrect = selectedAnswer === q.ans;
+  const progressEl = document.getElementById('analysis-progress');
+  if (progressEl) progressEl.textContent = `${idx+1}/${questions.length}`;
+  const contentEl = document.getElementById('analysis-content');
+  if (!contentEl) return;
+  
+  let resultHtml = '';
+  if (isCorrect) {
+    resultHtml = `<div class="result-banner" style="background:var(--green-bg)">
+      <div class="result-icon"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" stroke="#059669" stroke-width="1.5"/><path d="M7 11l3 3 5-6" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="result-label" style="color:var(--green)">回答正确</span></div>
+      <div class="result-sub" style="color:#065F46">你选择了 ${letters[selectedAnswer]}. ${q.opts[selectedAnswer]}，回答正确！</div>
+    </div>`;
+  } else {
+    resultHtml = `<div class="result-banner">
+      <div class="result-icon"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" stroke="#DC2626" stroke-width="1.5"/><path d="M8 8l6 6M14 8l-6 6" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/></svg><span class="result-label">回答错误</span></div>
+      <div class="result-sub">你选择了 ${selectedAnswer>=0?letters[selectedAnswer]+'. '+q.opts[selectedAnswer]:'未选择'}，正确答案是 ${letters[q.ans]}. ${q.opts[q.ans]}</div>
+    </div>`;
+  }
+  
+  const reviewOpts = q.opts.map((o, i) => {
+    if (i === q.ans) return `<div class="review-opt correct">${letters[i]}. ${o} <span class="opt-tag">正确答案</span></div>`;
+    if (i === selectedAnswer && !isCorrect) return `<div class="review-opt wrong">${letters[i]}. ${o} <span class="opt-tag">你的选择</span></div>`;
+    return `<div class="review-opt neutral">${letters[i]}. ${o}</div>`;
+  }).join('');
+
+  // 查找匹配的考点速记
+  const subjectName = subjects[currentSubject].name;
+  const matchedKnowledge = knowledgeData.filter(k => k.s === currentSubject && q.q.includes(k.title.replace(/vs/,'').substring(0,4).trim()));
+  
+  contentEl.innerHTML = `${resultHtml}
+    <div class="analysis-card">
+      <div class="ac-header"><div class="q-tag">${q.type}</div><div class="ch-tag">${subjectName}</div></div>
+      <div class="q-text">${q.q}</div>
+      <div class="review-options">${reviewOpts}</div>
+    </div>
+    <div class="explanation-section">
+      <div class="exp-header"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#7C3AED" stroke-width="1.5"/><path d="M9 5v4M9 11.5v.5" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/></svg><div class="exp-title">解析</div></div>
+      <div class="exp-text">正确答案为${letters[q.ans]}. ${q.opts[q.ans]}。${currentSubject===0?'本题考查金融市场基础知识相关考点。':'本题考查证券法律法规相关考点。'}</div>
+      <div class="tag-row"><span class="kc-tag freq">高频考点</span><span class="kc-tag" style="background:var(--gray-100);color:var(--gray-500)">${subjectName}</span></div>
+    </div>`;
+}
+
+function renderExam() {
+  const subjectLabel = document.getElementById('exam-subject-label');
+  if (subjectLabel) subjectLabel.textContent = currentExamTitle || subjects[currentSubject].name;
+
+  // 如果没有考试题目，生成默认的
+  if (currentExamQuestions.length === 0) {
+    currentExamQuestions = generateExamQuestions(subjects[currentSubject].name, currentSubject, currentExamCount);
+    examAnswers = new Array(currentExamQuestions.length).fill(-1);
+  }
+
+  const qIdx = currentQuestionIdx;
+  const q = currentExamQuestions[qIdx];
+  if (!q) return;
+  const total = currentExamQuestions.length;
+  const answered = examAnswers.filter(a => a >= 0).length;
+  const letters = ['A','B','C','D'];
+
+  // 更新进度
+  const progressInfo = document.getElementById('exam-progress-text');
+  const answeredInfo = document.getElementById('exam-answered-text');
+  const barEl = document.getElementById('exam-progress-bar');
+  if (progressInfo) progressInfo.textContent = `第 ${qIdx+1}/${total} 题`;
+  if (answeredInfo) answeredInfo.textContent = `已答 ${answered} 题`;
+  if (barEl) barEl.style.width = `${Math.max(1, ((qIdx+1)/total)*100)}%`;
+
+  // 渲染题目
+  const qCard = document.getElementById('exam-question-card');
+  if (qCard) {
+    const prevSelected = examAnswers[qIdx];
+    qCard.innerHTML = `
+      <div class="q-badge">${q.type}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((o, i) => `<div class="option-btn ${prevSelected===i?'selected':''}" onclick="selectExamOption(this,${i})"><div class="circle">${letters[i]}</div><div class="opt-text">${o}</div></div>`).join('')}
+      </div>`;
+  }
+
+  // 渲染答题卡
+  const numGrid = document.getElementById('exam-num-grid');
+  if (numGrid) {
+    let cells = '';
+    for (let i = 0; i < Math.min(total, 50); i++) {
+      const cls = i === qIdx ? 'current' : (examAnswers[i] >= 0 ? 'answered' : 'unanswered');
+      cells += `<div class="num-cell ${cls}" onclick="jumpExamQuestion(${i})">${i+1}</div>`;
+    }
+    if (total > 50) cells += `<div class="num-cell unanswered" style="font-size:10px">...</div>`;
+    numGrid.innerHTML = cells;
+  }
+
+  // 更新答题卡摘要
+  const summary = document.getElementById('exam-answer-summary');
+  if (summary) summary.textContent = `${answered}/${total} 已答`;
+
+  // 同步科目按钮
+  const examSubjectBtns = document.querySelectorAll('#screen-exam .subject-switch .subject-btn');
+  examSubjectBtns.forEach((btn, i) => btn.classList.toggle('active', i === currentSubject));
+}
+
+function selectExamOption(el, idx) {
+  examAnswers[currentQuestionIdx] = idx;
+  selectedAnswer = idx;
+  const parent = el.closest('.options');
+  parent.querySelectorAll('.option-btn').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  // 更新已答计数和答题卡
+  const answered = examAnswers.filter(a => a >= 0).length;
+  const answeredInfo = document.getElementById('exam-answered-text');
+  if (answeredInfo) answeredInfo.textContent = `已答 ${answered} 题`;
+  const summary = document.getElementById('exam-answer-summary');
+  if (summary) summary.textContent = `${answered}/${currentExamQuestions.length} 已答`;
+  // 更新答题卡格子
+  const numGrid = document.getElementById('exam-num-grid');
+  if (numGrid) {
+    const cells = numGrid.querySelectorAll('.num-cell');
+    cells.forEach((cell, i) => {
+      if (i === currentQuestionIdx) { cell.className = 'num-cell current'; }
+      else if (i < currentExamQuestions.length && examAnswers[i] >= 0) { cell.className = 'num-cell answered'; }
+      else { cell.className = 'num-cell unanswered'; }
+    });
+  }
+}
+
+function examNext() {
+  if (currentQuestionIdx < currentExamQuestions.length - 1) {
+    currentQuestionIdx++;
+    selectedAnswer = examAnswers[currentQuestionIdx];
+    renderExam();
+  }
+}
+
+function examPrev() {
+  if (currentQuestionIdx > 0) {
+    currentQuestionIdx--;
+    selectedAnswer = examAnswers[currentQuestionIdx];
+    renderExam();
+  }
+}
+
+function jumpExamQuestion(idx) {
+  currentQuestionIdx = idx;
+  selectedAnswer = examAnswers[idx];
+  renderExam();
+}
+
+function submitExam() {
+  const answered = examAnswers.filter(a => a >= 0).length;
+  const total = currentExamQuestions.length;
+  if (answered < total) {
+    if (!confirm(`还有 ${total - answered} 题未作答，确定交卷吗？`)) return;
+  } else {
+    if (!confirm('确定交卷吗？')) return;
+  }
+  // 计算分数
+  let correct = 0;
+  currentExamQuestions.forEach((q, i) => {
+    if (examAnswers[i] === q.ans) correct++;
+  });
+  const score = Math.round((correct / total) * 100);
+  alert(`📝 考试结束！\n\n📊 成绩：${score} 分\n✅ 正确：${correct}/${total}\n❌ 错误：${total - correct}\n\n${score >= 60 ? '🎉 恭喜通过！' : '💪 继续加油！'}`);
+  switchTab('bank');
+}
+
+function toggleStar(el) {
+  el.textContent = el.textContent === '☆' ? '★' : '☆';
+  el.style.color = el.textContent === '★' ? '#F59E0B' : '';
+}
+
+// Timer
+let totalSeconds = 2*3600;
+function updateTimer() {
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  const el = document.getElementById('timer');
+  if (el) el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  if (totalSeconds > 0) totalSeconds--;
+}
+setInterval(updateTimer, 1000);
+
+function filterKnowledge(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('#knowledge-filters .filter-tag').forEach(t => {
+    t.classList.toggle('active', false);
+    t.classList.toggle('inactive', true);
+  });
+  const labels = {'all':'全部考点','freq':'高频考点','mix':'易混点','num':'数字/年限','mnemo':'口诀'};
+  document.querySelectorAll('#knowledge-filters .filter-tag').forEach(t => {
+    if (t.textContent === labels[filter]) { t.classList.add('active'); t.classList.remove('inactive'); }
+  });
+  renderKnowledge();
+}
+
+function switchKnowledgeSubject(idx) {
+  currentSubject = idx;
+  knowledgeChapter = -1;
+  document.querySelectorAll('#screen-knowledge .subject-btn').forEach((b,i) => {
+    b.classList.toggle('active', i === idx);
+  });
+  renderKnowledgeChapters();
+  renderKnowledge();
+}
+
+function selectKnowledgeChapter(chIdx) {
+  knowledgeChapter = chIdx;
+  document.querySelectorAll('#knowledge-chapters .ch-chip').forEach((c,i) => {
+    c.classList.toggle('active', i === chIdx + 1); // +1 because index 0 is "全部"
+  });
+  renderKnowledge();
+}
+
+function renderKnowledgeChapters() {
+  const container = document.getElementById('knowledge-chapters');
+  if (!container) return;
+  const subject = subjects[currentSubject];
+  let html = `<div class="ch-chip ${knowledgeChapter===-1?'active':''}" onclick="selectKnowledgeChapter(-1)">全部</div>`;
+  subject.chapters.forEach((ch, i) => {
+    const count = knowledgeData.filter(k => k.s === currentSubject && k.ch === '第'+(i+1)+'章').length;
+    // 简化章节名：提取"第X章"+关键词
+    const m = ch.name.match(/第(\d+)章\s*(.+)/);
+    let shortName = m ? '第'+m[1]+'章' : ch.name;
+    // 关键词缩短
+    const keywords = {
+      '金融市场体系':'市场体系','中国的金融体系':'金融体系','证券市场主体':'市场主体',
+      '股票':'股票','债券':'债券','证券投资基金':'基金','金融衍生工具':'衍生工具','金融风险管理':'风险管理',
+      '证券市场基本法律法规':'基本法规','证券经营机构管理规范':'经营规范',
+      '证券公司业务规范':'业务规范','证券市场典型违法违规行为及法律责任':'违法违规',
+      '行业文化、职业道德与从业人员行为规范':'职业规范'
+    };
+    const key = m ? m[2] : '';
+    const label = keywords[key] || (key.length > 4 ? key.substring(0,4) : key);
+    html += `<div class="ch-chip ${knowledgeChapter===i?'active':''}" onclick="selectKnowledgeChapter(${i})">第${i+1}章·${label} ${count}</div>`;
+  });
+  container.innerHTML = html;
+}
+
+function renderKnowledge() {
+  const search = (document.getElementById('knowledge-search')?.value || '').toLowerCase();
+  let items = knowledgeData.filter(k => k.s === currentSubject);
+  // 章节筛选
+  if (knowledgeChapter >= 0) {
+    items = items.filter(k => k.ch === '第' + (knowledgeChapter + 1) + '章');
+  }
+  // 标签筛选
+  if (currentFilter === 'freq') items = items.filter(k => k.tags.includes('freq'));
+  else if (currentFilter === 'mix') items = items.filter(k => k.tags.includes('mix'));
+  else if (currentFilter === 'num') items = items.filter(k => k.tags.includes('num'));
+  else if (currentFilter === 'mnemo') items = items.filter(k => k.tags.includes('mnemo'));
+  if (search) items = items.filter(k => k.title.toLowerCase().includes(search) || k.body.toLowerCase().includes(search) || k.ch.toLowerCase().includes(search));
+  const list = document.getElementById('knowledge-list');
+  if (!list) return;
+  const tagLabels = {freq:'高频', mix:'易混', num:'数字', mnemo:'口诀'};
+  const subjectName = subjects[currentSubject].name;
+  const chapterName = knowledgeChapter >= 0 ? subjects[currentSubject].chapters[knowledgeChapter].name : '全部章节';
+  list.innerHTML = `<div style="padding:0 20px 8px;font-size:12px;color:var(--gray-400)">共 ${items.length} 条考点 · ${chapterName}</div>` +
+    items.map(k => {
+      const tagsHtml = k.tags.map(t => `<span class="kc-tag ${t}">${tagLabels[t]}</span>`).join('');
+      let inner = `<div class="kc-top"><div class="kc-title">${k.title}</div><div class="kc-tags">${tagsHtml}</div></div>`;
+      inner += `<div class="kc-chapter">${k.ch} · ${subjectName}</div>`;
+      if (k.body) inner += `<div class="kc-body">${k.body}</div>`;
+      if (k.mnemo) inner += `<div class="kc-mnemo">${k.mnemo}</div>`;
+      if (k.tags.includes('num')) inner += `<div class="kc-hint">⚠️ 此考点涉及关键数字，务必牢记！</div>`;
+      return `<div class="knowledge-card">${inner}</div>`;
+    }).join('');
+}
+
+// Init
+renderChapters();
+renderKnowledgeChapters();
+renderKnowledge();
+renderPractice();
+</script>
+</body>
+</html>
