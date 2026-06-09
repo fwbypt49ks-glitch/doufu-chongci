@@ -1478,6 +1478,7 @@ function renderAnalysis() {
 }
 
 function renderExam() {
+  const subjectLabel = document.getElementById('exam-subject-label');
   if (subjectLabel) subjectLabel.textContent = currentExamTitle || subjects[currentSubject].name;
 
   // 如果没有考试题目，生成默认的
